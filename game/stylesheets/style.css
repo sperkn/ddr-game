@@ -1,0 +1,11 @@
+/* .flex-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+} */
+/* 
+background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); */
+
+.display {
+  display: none;
+}
