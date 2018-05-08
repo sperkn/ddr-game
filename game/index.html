@@ -10,18 +10,19 @@
 </head>
 
 <body>
-  <div id="main-container">
   <div id="game-intro">
-    <img src="./images/DDR2009Logo.png" alt="" class="logo-img">
+    <img src="./images/DDR2009Logo.png" alt="main-logo" class="logo-img">
     <br>
     <button id="start-button">StartGame</button>
     <h3>Instructions:</h3>
     <p>Use the arrow keys to match the arrows as they fall on to the "dance floor". For each incorrect dance
       move, your score decreases. Too many missteps and your dancing fun will come to an end. Get through the 
       entire song with the least mistakes and be crowned the dancing guru!</p>
-    <img src="./images/arrowkeys.png" alt="" class="arrows-img">
+    <img src="./images/arrowkeys.png" alt="arrow-keys" class="arrows-img">
   </div>
-    <canvas id="dance-floor" class="display" width="1000" height="800"></canvas>
+  <div id="display">
+    <canvas id="game-canvas" width="800" height="700"></canvas>
   </div>
+  <script type="text/javascript" src="./src/dance.js"></script>
 </body>
 </html>
