@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>FingerDance</title>
+  <title>DancingFingers</title>
   <script type="text/javascript" src="./src/dance.js"></script>
   <link rel="stylesheet" href="./stylesheets/style.css">
 </head>
@@ -15,10 +15,17 @@
     <br>
     <button id="start-button">StartGame</button>
     <h3>Instructions:</h3>
-    <p>Use the arrow keys to match the arrows as they fall on to the "dance floor". For each incorrect dance
-      move, your score decreases. Too many missteps and your dancing fun will come to an end. Get through the 
-      entire song with the least mistakes and be crowned the dancing guru!</p>
-    <img src="./images/arrowkeys.png" alt="arrow-keys" class="arrows-img">
+    <p>Press the corresponding arrow key (<img src="./images/arrowkeys.png" alt="arrow-keys" class="arrows-img" width="100" height="50">)
+      as soon as the falling game arrow crosses the matching arrow on the "dance floor". Time it just right and your 
+      dancing stamina remains the same, but mistime it and your dancing stamina decreases. Too many
+      missteps and you'll have to hang up your dancing fingers. </p>
+    <p>Get through the song with the highest stamina and be crowned the dancing guru!</p>
+    <h4>Tips:</h4>
+    <ol>
+      <li>The dancing floor boxes flash red(miss) or green(success) depending on if the arrow key is pressed at the correct time.</li>
+      <li>Your stamina decreases 5 for every incorrect dance move. When your stamina drops below 20, the screen will blink red.</li>
+      <li>After 5 correct dance moves in a row, the screen will blink green. Your stamina increases 10 for every 10 correct dance moves in a row.</li>
+    </ol>  
   </div>
   <div id="display">
     <canvas id="game-canvas" width="800" height="700"></canvas>
