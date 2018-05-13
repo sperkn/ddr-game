@@ -5,7 +5,14 @@ window.onload = function() {
   //that creates the arrows and pushes them onto the screen.
   function interval (){
     setInterval(updateCanvas, 40);
-  }
+    // if (board.stamina<0) {
+    //   alert("You lose!");
+    //   // setInterval(updateCanvas, 40);
+    // } else {
+    //   setInterval(updateCanvas, 40);
+      // prompt("You lose!");
+      // alert("You lose!");
+    }
 
   let theCanvas = document.getElementById("game-canvas");
   let ctx = theCanvas.getContext("2d");
@@ -14,8 +21,9 @@ window.onload = function() {
   document.getElementById("start-button").onclick = function() {
     removeStartScreen();
     setBackground();
+    createDanceFloor();
     interval();
-    startGame();
+    // startGame();
   };
 
   function removeStartScreen() {
@@ -37,6 +45,8 @@ window.onload = function() {
 
   let board = {
     stamina: 100,
+    staminaColor: "green",
+    staminaBar: {x:11, y:60, width:33, height:400,},
     frames: 0,
     counter: 0,
   };
@@ -49,6 +59,11 @@ window.onload = function() {
     // ctx.strokeStyle = "black";
     // ctx.fillRect(0, 700, 800, 50);
     // scoreboard
+    ctx.strokeStyle = "black";
+    ctx.strokeRect(10, 58, 35, 402);
+    ctx.fillStyle = board.staminaColor;
+    // ctx.fillRect(11, 51, 33, 398);
+    ctx.fillRect(board.staminaBar.x, board.staminaBar.y, board.staminaBar.width, board.staminaBar.height);
     ctx.font = "30px Helevetica";
     ctx.fillStyle = "red";
     ctx.fillText("Stamina: " + board.stamina, 0, 35);
@@ -129,16 +144,26 @@ window.onload = function() {
     for (i=0; i<gameArrows.length; i++) {
       gameArrows[i].drawArrow();
       gameArrows[i].y += 5;
-
-      if(gameArrows[i].y > 700) {
+      if (gameArrows[i].y > 700 && board.stamina<=100) {
+        board.stamina-=5;
+        board.staminaBar.y+=20;
+        board.staminaBar.height-=20;
+        gameArrows.splice(i, 1);
+        board.counter=0;
+      } else if(gameArrows[i].y > 700) {
+      board.stamina-=5;
       gameArrows.splice(i, 1);
-      // console.log(gameArrows);
+      board.counter=0;
       } 
     }
 
+    if (board.stamina <= 60 && board.stamina > 20){
+      board.staminaColor="yellow";
+    } else if (board.stamina <= 20) {
+      board.staminaColor = "red";
+    }
     // if (board.counter%10===0 && board.counter!=0) {
     //   board.stamina+=10;
-      
     // }
   }
 //*end of falling arrows code*
@@ -182,68 +207,120 @@ window.onload = function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
         if(gameArrows[i].y > 603 && gameArrows[i].y+gameArrows[i].height < 702 && gameArrows[i].x === 100) {
-          // console.log("Nice!");
+          gameArrows.splice(i, 1);
           board.counter++;
           correctKey = 1;
         }
       } 
-      if(correctKey === 0) {
+      if(correctKey === 0 && board.stamina <=100) {
         board.stamina -= 5;
         board.counter = 0;
-      } else if (board.counter%10===0) {
-          board.stamina+=10;
+        board.staminaBar.y+=20;
+        board.staminaBar.height-=20;
+      } else if(correctKey === 0) {
+        board.stamina-=5;
+        board.counter = 0;
+      } else if (board.counter%5===0 && board.stamina>90 && board.stamina<100) {
+        board.stamina+=5;
+        board.staminaBar.y-= (board.staminaBar.y-60);
+        board.staminaBar.height+= (board.staminaBar.height+60);
+      } else if (board.counter%5===0 && board.stamina<=90) {
+        board.stamina+=5;
+        board.staminaBar.y-=20;
+        board.staminaBar.height+=20;
+      } else if (board.counter%5===0) {
+        board.stamina+=5;
       }
     },
     arrowRight: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
         if (gameArrows[i].y > 603 && gameArrows[i].y+gameArrows[i].height < 702 && gameArrows[i].x === 355) {
-        // console.log("Sweeeeeet!");
+        gameArrows.splice(i, 1);
         board.counter++;
         correctKey = 1;
         }
       }
-      if(correctKey === 0) {
+      if(correctKey === 0 && board.stamina <=100) {
+        board.stamina-=5;
+        board.counter=0;
+        board.staminaBar.y+=20;
+        board.staminaBar.height-=20;
+      } else if(correctKey === 0) {
         board.stamina -= 5;
         board.counter = 0;
-      } else if (board.counter%10===0) {
-        board.stamina+=10;
+      } else if (board.counter%5===0 && board.stamina>90 && board.stamina<100) {
+        board.stamina+=5;
+        board.staminaBar.y-= (board.staminaBar.y-60);
+        board.staminaBar.height+= (board.staminaBar.height+60);
+      } else if (board.counter%5===0 && board.stamina<=90) {
+        board.stamina+=5;
+        board.staminaBar.y-=20;
+        board.staminaBar.height+=20;
+      } else if (board.counter%5===0) {
+        board.stamina+=5;
       }
     },
     arrowDown: function() {
       let correctKey = 0; 
       for (i=0; i<gameArrows.length; i++) {
         if (gameArrows[i].y > 603 && gameArrows[i].y+gameArrows[i].height < 702 && gameArrows[i].x === 185) {
-          // console.log("Hell Yeah!");
+          gameArrows.splice(i, 1);
           board.counter++;
           correctKey = 1;
         }
       }
-      if(correctKey === 0) {
-        board.stamina -= 5;
+      if(correctKey === 0 && board.stamina <=100) {
+        board.stamina-=5;
         board.counter = 0;
-      } else if (board.counter%10===0) {
-        board.stamina+=10;
+        board.staminaBar.y+=20;
+        board.staminaBar.height-=20;
+      } else if(correctKey === 0) {
+        board.stamina-=5;
+        board.counter = 0;
+      } else if (board.counter%5===0 && board.stamina>90 && board.stamina<100) {
+        board.stamina+=5;
+        board.staminaBar.y-= (board.staminaBar.y-60);
+        board.staminaBar.height+= (board.staminaBar.height+60);
+      } else if (board.counter%5===0 && board.stamina<=90) {
+        board.stamina+=5;
+        board.staminaBar.y-=20;
+        board.staminaBar.height+=20;
+      } else if (board.counter%5===0) {
+        board.stamina+=5;
       }
     },
     arrowUp: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
         if (gameArrows[i].y > 603 && gameArrows[i].y+gameArrows[i].height < 702 && gameArrows[i].x === 270) {
-          // console.log("Cowabonga Dude!");
+          gameArrows.splice(i, 1);
           board.counter++;
           correctKey = 1;
         }
       }
-      if(correctKey === 0) {
-        board.stamina -= 5;
+      if(correctKey === 0 && board.stamina <=100) {
+        board.stamina-=5;
+        board.counter=0;
+        board.staminaBar.y+=20;
+        board.staminaBar.height-=20;
+      } else if(correctKey === 0) {
+        board.stamina-=5;
         board.counter = 0;
-      } else if (board.counter%10===0) {
-        board.stamina+=10;
+      } else if (board.counter%5===0 && board.stamina>90 && board.stamina<100) {
+        board.stamina+=5;
+        board.staminaBar.y-= (board.staminaBar.y-60);
+        board.staminaBar.height+= (board.staminaBar.height+60);
+      } else if (board.counter%5===0 && board.stamina<=90) {
+        board.stamina+=5;
+        board.staminaBar.y-=20;
+        board.staminaBar.height+=20;
+      } else if (board.counter%5===0) {
+        board.stamina+=5;
       }
     },
   };
-
+};
   // ctx.strokeStyle = "black";
   //     ctx.strokeRect(95, 610, 85, 85);
   //     ctx.drawImage(arrowImageLeft, 100, 615, 75, 75);
@@ -255,147 +332,3 @@ window.onload = function() {
   //     ctx.drawImage(arrowImageRight, 355, 615, 75, 75);
 
 
-
-  // let verifyArrow = {
-  //   arrowLeft: function() {
-  //     if (gameArrows[i].y === 610 && gameArrows[i].x === 100) {
-  //       console.log("Nice!");
-  //       board.counter++;
-  //     } else {
-  //       board.score -= 5;
-  //     }
-  //   },
-  //   arrowRight: function() {
-  //     if (gameArrows[i].y === 610 && gameArrows[i].x === 355) {
-  //       console.log("Sweet!");
-  //       board.counter++;
-  //     } else {
-  //       board.score -= 5;
-  //     }
-  //   },
-  //   arrowDown: function() {
-  //     if (gameArrows[i].y === 610 && gameArrows[i].x === 185) {
-  //       console.log("Sweet!");
-  //       board.counter++;
-  //     } else {
-  //       board.score -= 5;
-  //     }
-  //   },
-  //   arrowUp: function() {
-  //     if (gameArrows[i].y === 610 && gameArrows[i].x === 270) {
-  //       console.log("Sweet!");
-  //       board.counter++;
-  //     } else {
-  //       board.score -= 5;
-  //     }
-  //   },
-  // };
-
-  
-
-  // let arrowTypes = {
-  //   left: function() {ctx.drawImage(arrowImageLeft, 100, 10, 50, 50);
-  //   },
-  //   down: function() {ctx.drawImage(arrowImageDown, 160, 10, 50, 50);
-  //   },
-  //   up: function () {ctx.drawImage(arrowImageUp, 210, 10, 50, 50);
-  //   },
-  //   right: function () {ctx.drawImage(arrowImageRight, 260, 10, 50, 50);
-  //   },
-  // };
-
-  // function drawArrowLeft() {
-  //   arrowTypes.left();
-  // }
-
-  // function drawRandomArrow() {
-  //   let arrowTypes = [arrows.left(), arrows.down(), arrows.up(), arrows.right()];
-  //   let arrowPicked = arrowTypes[Math.floor(Math.random()*arrowTypes.length)];
-  //   return 
-  //   console.log(arrowPicked);
-  // }
-
-  ///////////////
-  // let arrowImages = [];
-
-  // function drawArrowLeft() {
-  //   let theCanvas = document.getElementById("dance-floor");
-  //   let ctx = theCanvas.getContext("2d");
-  //   return ctx.drawImage(
-  //     arrowImageLeft,
-  //     50,
-  //     10,
-  //     25,
-  //     25
-  //   );
-  // }
-
-  // function drawArrowDown() {
-  //   let theCanvas = document.getElementById("dance-floor");
-  //   let ctx = theCanvas.getContext("2d");
-  //   return ctx.drawImage(
-  //     arrowImageDown,
-  //     80,
-  //     10,
-  //     25,
-  //     25
-  //   );
-  // }
-
-  // function drawArrowUp() {
-  //   let theCanvas = document.getElementById("dance-floor");
-  //   let ctx = theCanvas.getContext("2d");
-  //   return ctx.drawImage(
-  //     arrowImageUp,
-  //     110,
-  //     10,
-  //     25,
-  //     25
-  //   );
-  // }
-
-  // function drawArrowRight() {
-  //   let theCanvas = document.getElementById("dance-floor");
-  //   let ctx = theCanvas.getContext("2d");
-  //   return ctx.drawImage(
-  //     arrowImageRight,
-  //     140,
-  //     10,
-  //     25,
-  //     25
-  //   );
-  // }
-
-  // arrowImages.push(drawArrowLeft(), drawArrowDown(), drawArrowUp(), drawArrowRight());
-
-  // function drawRandomArrow() {
-  //   return arrowImages[Math.floor(Math.random()*arrowImages.length)];
-  // }
-
- 
-
-  //   createGameBoard();
-  //   drawCar();
-  //   for (i = 0; i < myObstacles.length; i++) {
-  //     myObstacles[i].createObstacle();
-  //     myObstacles[i].y += 10;
-  //   }
-  // };
-
-  // let car = {
-  //   width: 50,
-  //   height: 80,
-  //   x: 225,
-  //   y: 510,
-  //   moveLeft: function () {
-  //     if (this.x > 60) {
-  //     this.x -= 10;
-  //     }
-  //   },
-  //   moveRight: function () {
-  //    if(this.x < 390){
-  //     this.x += 10;
-  //     }
-  //   },
-  // };
-};
