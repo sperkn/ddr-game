@@ -1,87 +1,118 @@
 window.onload = function() {
   //*until noted otherwise, the following code below is for general use.*
 
+  let theCanvas = document.getElementById("game-canvas");
+  let ctx = theCanvas.getContext("2d");
+
+  // let introSong = document.querySelector('audio');
+  // introSong.play();
+  document.getElementById("instructions").onclick = function() {
+    let instructions = document.getElementById("instructions-display");
+    if (instructions.style.display = "none") {
+    instructions.style.display = "block";
+    } else {
+      instructions.style.display = "none";
+    }
+  };
+
+  document.getElementById("start").onclick = function() {
+    removeStartScreen();
+    setGameBackground();
+    startGame();
+    // let introSong = document.querySelector('audio');
+    // introSong.play();
+
+    interval();
+    // checkOutcome();
+  };
+
   //every 40ms interval() function initiates updateCanvas(), which is the "engine"
   //that creates the arrows and pushes them onto the screen.
   function interval (){
-    setInterval(updateCanvas, 40);
-    // if (board.stamina<0) {
-    //   alert("You lose!");
-    //   // setInterval(updateCanvas, 40);
-    // } else {
-    //   setInterval(updateCanvas, 40);
-      // prompt("You lose!");
-      // alert("You lose!");
+    setInterval(updateCanvas, 25);
+    setInterval(checkOutcome, 800);
     }
-
-  let theCanvas = document.getElementById("game-canvas");
-  let ctx = theCanvas.getContext("2d");
-  
-
-  document.getElementById("start-button").onclick = function() {
-    removeStartScreen();
-    setBackground();
-    createDanceFloor();
-    interval();
-    // startGame();
-  };
-
   function removeStartScreen() {
+    // remove the "canvas-display" class from the canvas tag in order to allow canvas to be shown
     let initialScreen = document.getElementById("game-intro");
     initialScreen.innerHTML = "";
+    let gameboard = document.getElementById("canvas-display");
+    gameboard.setAttribute("id", "");
+    // gamboard.style.display = "block";
   }
 
-  function setBackground() {
-    // remove the "display" class from the canvas tag in order to
-    // allow canvas to be shown and add canvas-dimensions class to
+  function setGameBackground() {
+    
     // set the background color scheme
-    let background = document.getElementById("display");
-    background.setAttribute("id", "background-color");
+    let background = document.getElementById("home-background");
+    background.setAttribute("id", "background1");
   }
 
   function startGame() {
-    createDanceFloor();
+    createGameBoard1();
+    
+    // setInterval(checkOutcome, 40);
   }
 
   let board = {
-    stamina: 100,
-    staminaColor: "green",
-    staminaBar: {x:11, y:60, width:33, height:400,},
     frames: 0,
-    counter: 0,
   };
 
-  function createDanceFloor() {
+  let user1stats = {
+    stamina: 100,
+    staminaColor: "#43e97b",
+    staminaBar: {x:11, y:60, width:33, height:400,},
+    counter: 0,
+    misses: 0,
+    streak: 0,
+  };
+
+  let user2stats = {
+    stamina: 100,
+    staminaColor: "#43e97b",
+    staminaBar: {x:11, y:60, width:33, height:400,},
+    counter: 0,
+    misses: 0,
+    streak: 0,
+  };
+
+  function createGameBoard1() {
     //initiate the canvas
     // let theCanvas = document.getElementById("game-canvas");
     // let ctx = theCanvas.getContext("2d");
     //dance floor characteristics
     // ctx.strokeStyle = "black";
     // ctx.fillRect(0, 700, 800, 50);
+    
     // scoreboard
     ctx.strokeStyle = "black";
     ctx.strokeRect(10, 58, 35, 402);
-    ctx.fillStyle = board.staminaColor;
+    ctx.fillStyle = user1stats.staminaColor;
     // ctx.fillRect(11, 51, 33, 398);
-    ctx.fillRect(board.staminaBar.x, board.staminaBar.y, board.staminaBar.width, board.staminaBar.height);
+    ctx.fillRect(user1stats.staminaBar.x, user1stats.staminaBar.y, user1stats.staminaBar.width, user1stats.staminaBar.height);
     ctx.font = "30px Helevetica";
     ctx.fillStyle = "red";
-    ctx.fillText("Stamina: " + board.stamina, 0, 35);
+    ctx.fillText("Stamina: " + user1stats.stamina, 0, 35);
     ctx.font = "30px Helevetica";
     ctx.fillStyle = "black";
-    ctx.fillText("Counter: " + board.counter, 0, 70);
+    ctx.fillText("Counter: " + user1stats.counter, 0, 70);
 
-    ctx.strokeStyle = "black";
-    ctx.strokeRect(95, 610, 85, 85);
+    // ctx.strokeStyle = "black";
+    // ctx.strokeRect(95, 610, 85, 85);
     ctx.drawImage(arrowImageLeft, 100, 615, 75, 75);
-    ctx.strokeRect(180, 610, 85, 85);
+    // ctx.strokeRect(180, 610, 85, 85);
     ctx.drawImage(arrowImageDown, 185, 615, 75, 75);
-    ctx.strokeRect(265, 610, 85, 85);
+    // ctx.strokeRect(265, 610, 85, 85);
     ctx.drawImage(arrowImageUp, 270, 615, 75, 75);
-    ctx.strokeRect(350, 610, 85, 85);
+    // ctx.strokeRect(350, 610, 85, 85);
     ctx.drawImage(arrowImageRight, 355, 615, 75, 75);
   }
 
+  function checkOutcome() {
+    if (user1stats.stamina <= 0) {
+       alert("You lose!");
+    }
+  }
 
   let arrowImageLeft = new Image();
   arrowImageLeft.src = "images/left_arrow.png";
@@ -95,7 +126,7 @@ window.onload = function() {
 
   //until noted otherwise, the following code below is for the
   //arrows that will fall down the canvas.
-  function Arrow(x, y, width, height, arrowGenerated) {
+  function Arrowfalling(x, y, width, height, arrowGenerated) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -110,57 +141,58 @@ window.onload = function() {
 
   function updateCanvas() {
     ctx.clearRect(0,0, 800, 700);
-    createDanceFloor();
+    startGame();
     board.frames++;
     let allArrows = [arrowImageLeft, arrowImageDown, arrowImageUp, arrowImageRight];
     let randomArrow = allArrows[Math.floor(Math.random()*allArrows.length)];
 
-    if (board.frames % 50 === 1 && randomArrow === arrowImageLeft) {
+    if (board.frames % 35 === 1 && randomArrow === arrowImageLeft) {
       let arrowX = 100;
       let arrowY = 0;
       let arrowWidth = 75;
       let arrowHeight = 75;
-      gameArrows.push(new Arrow(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
-    } else if (board.frames % 50 === 1 && randomArrow === arrowImageDown) {
+      gameArrows.push(new Arrowfalling(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
+    } else if (board.frames % 35 === 1 && randomArrow === arrowImageDown) {
         let arrowX = 185;
         let arrowY = 0;
         let arrowWidth = 75;
         let arrowHeight = 75;
-        gameArrows.push(new Arrow(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
-      } else if (board.frames % 50 === 1 && randomArrow === arrowImageUp){
+        gameArrows.push(new Arrowfalling(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
+      } else if (board.frames % 35 === 1 && randomArrow === arrowImageUp){
         let arrowX = 270;
         let arrowY = 0;
         let arrowWidth = 75;
         let arrowHeight = 75;
-        gameArrows.push(new Arrow(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
-      } else if (board.frames % 50 === 1 && randomArrow === arrowImageRight) {
+        gameArrows.push(new Arrowfalling(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
+      } else if (board.frames % 35 === 1 && randomArrow === arrowImageRight) {
         let arrowX = 355;
         let arrowY = 0;
         let arrowWidth = 75;
         let arrowHeight = 75;
-        gameArrows.push(new Arrow(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
+        gameArrows.push(new Arrowfalling(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
       }
     
     for (i=0; i<gameArrows.length; i++) {
+      console.log(gameArrows);
       gameArrows[i].drawArrow();
       gameArrows[i].y += 5;
-      if (gameArrows[i].y > 700 && board.stamina<=100) {
-        board.stamina-=5;
-        board.staminaBar.y+=20;
-        board.staminaBar.height-=20;
+      if (gameArrows[i].y > 703 && user1stats.stamina<=100) {
+        user1stats.stamina-=5;
+        user1stats.staminaBar.y+=20;
+        user1stats.staminaBar.height-=20;
         gameArrows.splice(i, 1);
-        board.counter=0;
+        user1stats.counter=0;
       } else if(gameArrows[i].y > 700) {
-      board.stamina-=5;
-      gameArrows.splice(i, 1);
-      board.counter=0;
+        user1stats.stamina-=5;
+        gameArrows.splice(i, 1);
+        user1stats.counter=0;
       } 
     }
 
-    if (board.stamina <= 60 && board.stamina > 20){
-      board.staminaColor="yellow";
-    } else if (board.stamina <= 20) {
-      board.staminaColor = "red";
+    if (user1stats.stamina <= 60 && user1stats.stamina > 20){
+      user1stats.staminaColor="#fee140";
+    } else if (user1stats.stamina <= 20) {
+      user1stats.staminaColor = "#ff0844";
     }
     // if (board.counter%10===0 && board.counter!=0) {
     //   board.stamina+=10;
@@ -174,30 +206,20 @@ window.onload = function() {
   //setting arrow key commands to functions that will verify if any of the falling
   //arrows match the arrow on the bottom that corresponds with the arrow key pushed.
   document.onkeydown = function(e) {
-    if (e.keyCode === 37) {
+    // console.log(e);
+    switch (e.keyCode) {
+     case 37: 
       verifyArrow.arrowLeft();
-      // if (correctKey === false) {
-      //   board.stamina -= 5;
-      //   board.counter = 0;
-      // }
-    } else if (e.keyCode === 39) {
-      verifyArrow.arrowRight();
-      // if (correctKey === false) {
-      //   board.stamina -= 5;
-      //   board.counter = 0;
-      // }
-    } else if (e.keyCode === 40) {
-      verifyArrow.arrowDown();
-      // if (correctKey === false) {
-      //   board.stamina -= 5;
-      //   board.counter = 0;
-      // }
-    } else if (e.keyCode === 38) {
+      break;
+     case 38: 
       verifyArrow.arrowUp();
-      // if (correctKey === false) {
-      //   board.stamina -= 5;
-      //   board.counter = 0;
-      // }
+      break;
+     case 39: 
+      verifyArrow.arrowRight();
+      break;
+     case 40: 
+      verifyArrow.arrowDown();
+      break;
     }
   };
 
@@ -206,117 +228,117 @@ window.onload = function() {
     arrowLeft: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if(gameArrows[i].y > 603 && gameArrows[i].y+gameArrows[i].height < 702 && gameArrows[i].x === 100) {
+        if(gameArrows[i].y > 601 && gameArrows[i].y+gameArrows[i].height < 704 && gameArrows[i].x === 100) {
           gameArrows.splice(i, 1);
-          board.counter++;
+          user1stats.counter++;
           correctKey = 1;
         }
       } 
-      if(correctKey === 0 && board.stamina <=100) {
-        board.stamina -= 5;
-        board.counter = 0;
-        board.staminaBar.y+=20;
-        board.staminaBar.height-=20;
+      if(correctKey === 0 && user1stats.stamina <=100) {
+        user1stats.stamina -= 5;
+        user1stats.counter = 0;
+        user1stats.staminaBar.y+=20;
+        user1stats.staminaBar.height-=20;
       } else if(correctKey === 0) {
-        board.stamina-=5;
-        board.counter = 0;
-      } else if (board.counter%5===0 && board.stamina>90 && board.stamina<100) {
-        board.stamina+=5;
-        board.staminaBar.y-= (board.staminaBar.y-60);
-        board.staminaBar.height+= (board.staminaBar.height+60);
-      } else if (board.counter%5===0 && board.stamina<=90) {
-        board.stamina+=5;
-        board.staminaBar.y-=20;
-        board.staminaBar.height+=20;
-      } else if (board.counter%5===0) {
-        board.stamina+=5;
+        user1stats.stamina-=5;
+        user1stats.counter = 0;
+      } else if (user1stats.counter%5===0 && user1stats.stamina>90 && user1stats.stamina<100) {
+        user1stats.stamina+=5;
+        user1stats.staminaBar.y-= (user1stats.staminaBar.y-60);
+        user1stats.staminaBar.height+= (user1stats.staminaBar.height+60);
+      } else if (user1stats.counter%5===0 && user1stats.stamina<=90) {
+        user1stats.stamina+=5;
+        user1stats.staminaBar.y-=20;
+        user1stats.staminaBar.height+=20;
+      } else if (user1stats.counter%5===0) {
+        user1stats.stamina+=5;
       }
     },
     arrowRight: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 603 && gameArrows[i].y+gameArrows[i].height < 702 && gameArrows[i].x === 355) {
+        if (gameArrows[i].y > 601 && gameArrows[i].y+gameArrows[i].height < 704 && gameArrows[i].x === 355) {
         gameArrows.splice(i, 1);
-        board.counter++;
+        user1stats.counter++;
         correctKey = 1;
         }
       }
-      if(correctKey === 0 && board.stamina <=100) {
-        board.stamina-=5;
-        board.counter=0;
-        board.staminaBar.y+=20;
-        board.staminaBar.height-=20;
+      if(correctKey === 0 && user1stats.stamina <=100) {
+        user1stats.stamina-=5;
+        user1stats.counter=0;
+        user1stats.staminaBar.y+=20;
+        user1stats.staminaBar.height-=20;
       } else if(correctKey === 0) {
-        board.stamina -= 5;
-        board.counter = 0;
-      } else if (board.counter%5===0 && board.stamina>90 && board.stamina<100) {
-        board.stamina+=5;
-        board.staminaBar.y-= (board.staminaBar.y-60);
-        board.staminaBar.height+= (board.staminaBar.height+60);
-      } else if (board.counter%5===0 && board.stamina<=90) {
-        board.stamina+=5;
-        board.staminaBar.y-=20;
-        board.staminaBar.height+=20;
-      } else if (board.counter%5===0) {
-        board.stamina+=5;
+        user1stats.stamina -= 5;
+        user1stats.counter = 0;
+      } else if (user1stats.counter%5===0 && user1stats.stamina>90 && user1stats.stamina<100) {
+        user1stats.stamina+=5;
+        user1stats.staminaBar.y-= (user1stats.staminaBar.y-60);
+        user1stats.staminaBar.height+= (user1stats.staminaBar.height+60);
+      } else if (user1stats.counter%5===0 && user1stats.stamina<=90) {
+        user1stats.stamina+=5;
+        user1stats.staminaBar.y-=20;
+        user1stats.staminaBar.height+=20;
+      } else if (user1stats.counter%5===0) {
+        user1stats.stamina+=5;
       }
     },
     arrowDown: function() {
       let correctKey = 0; 
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 603 && gameArrows[i].y+gameArrows[i].height < 702 && gameArrows[i].x === 185) {
+        if (gameArrows[i].y > 601 && gameArrows[i].y+gameArrows[i].height < 704 && gameArrows[i].x === 185) {
           gameArrows.splice(i, 1);
-          board.counter++;
+          user1stats.counter++;
           correctKey = 1;
         }
       }
-      if(correctKey === 0 && board.stamina <=100) {
-        board.stamina-=5;
-        board.counter = 0;
-        board.staminaBar.y+=20;
-        board.staminaBar.height-=20;
+      if(correctKey === 0 && user1stats.stamina <=100) {
+        user1stats.stamina-=5;
+        user1stats.counter = 0;
+        user1stats.staminaBar.y+=20;
+        user1stats.staminaBar.height-=20;
       } else if(correctKey === 0) {
-        board.stamina-=5;
-        board.counter = 0;
-      } else if (board.counter%5===0 && board.stamina>90 && board.stamina<100) {
-        board.stamina+=5;
-        board.staminaBar.y-= (board.staminaBar.y-60);
-        board.staminaBar.height+= (board.staminaBar.height+60);
-      } else if (board.counter%5===0 && board.stamina<=90) {
-        board.stamina+=5;
-        board.staminaBar.y-=20;
-        board.staminaBar.height+=20;
-      } else if (board.counter%5===0) {
-        board.stamina+=5;
+        user1stats.stamina-=5;
+        user1stats.counter = 0;
+      } else if (user1stats.counter%5===0 && user1stats.stamina>90 && user1stats.stamina<100) {
+        user1stats.stamina+=5;
+        user1stats.staminaBar.y-= (user1stats.staminaBar.y-60);
+        user1stats.staminaBar.height+= (user1stats.staminaBar.height+60);
+      } else if (user1stats.counter%5===0 && user1stats.stamina<=90) {
+        user1stats.stamina+=5;
+        user1stats.staminaBar.y-=20;
+        user1stats.staminaBar.height+=20;
+      } else if (user1stats.counter%5===0) {
+        user1stats.stamina+=5;
       }
     },
     arrowUp: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 603 && gameArrows[i].y+gameArrows[i].height < 702 && gameArrows[i].x === 270) {
+        if (gameArrows[i].y > 601 && gameArrows[i].y+gameArrows[i].height < 704 && gameArrows[i].x === 270) {
           gameArrows.splice(i, 1);
-          board.counter++;
+          user1stats.counter++;
           correctKey = 1;
         }
       }
-      if(correctKey === 0 && board.stamina <=100) {
-        board.stamina-=5;
-        board.counter=0;
-        board.staminaBar.y+=20;
-        board.staminaBar.height-=20;
+      if(correctKey === 0 && user1stats.stamina <=100) {
+        user1stats.stamina-=5;
+        user1stats.counter=0;
+        user1stats.staminaBar.y+=20;
+        user1stats.staminaBar.height-=20;
       } else if(correctKey === 0) {
-        board.stamina-=5;
-        board.counter = 0;
-      } else if (board.counter%5===0 && board.stamina>90 && board.stamina<100) {
-        board.stamina+=5;
-        board.staminaBar.y-= (board.staminaBar.y-60);
-        board.staminaBar.height+= (board.staminaBar.height+60);
-      } else if (board.counter%5===0 && board.stamina<=90) {
-        board.stamina+=5;
-        board.staminaBar.y-=20;
-        board.staminaBar.height+=20;
-      } else if (board.counter%5===0) {
-        board.stamina+=5;
+        user1stats.stamina-=5;
+        user1stats.counter = 0;
+      } else if (user1stats.counter%5===0 && user1stats.stamina>90 && user1stats.stamina<100) {
+        user1stats.stamina+=5;
+        user1stats.staminaBar.y-= (user1stats.staminaBar.y-60);
+        user1stats.staminaBar.height+= (user1stats.staminaBar.height+60);
+      } else if (user1stats.counter%5===0 && user1stats.stamina<=90) {
+        user1stats.stamina+=5;
+        user1stats.staminaBar.y-=20;
+        user1stats.staminaBar.height+=20;
+      } else if (user1stats.counter%5===0) {
+        user1stats.stamina+=5;
       }
     },
   };

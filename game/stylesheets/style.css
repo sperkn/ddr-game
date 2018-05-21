@@ -10,19 +10,214 @@ body {
   padding: 0;
 }
 
-#display {
-  display: none;
+header {
+  text-align: center;
+}
+
+h1 {
+  color:#001521;
+  font: bold 65px "Comic Sans MS";
+  /* font-family: "Comic Sans MS"; */
+  /* , cursive, sans-serif; */
+}
+
+h2 {
+  background-color: #001521;
+  color: #ee509d;
+  text-align: center;
+  width: 100%;
+  font-family: "Comic Sans MS";
+  line-height: 45px;
+}
+
+h3 {
+  background-color: #001521;
+  color: #ee509d;
+  text-align: center;
+  width: 100%;
+  font-family: "Comic Sans MS";
+  line-height: 45px;
+}
+
+ol, ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 5px;
+}
+
+/*<----BUTTON CONTROLS----->*/
+.btn {
+  /* float: left; */
+  /* display: block; */
+  position: relative;
+  top: 0;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+  margin: 0 20px 11px;
+  padding: 0 20px;
+  text-align: center;
+  font-family: "Comic Sans MS";
+
+  /* Smoothing out hover using css3 transitions, if not, the pressed button effect looks a bit hard */
+  transition: all 0.2s ease;
+
+  /* Size */
+  line-height: 45px;
+  /* width: 100%; */
+  height: 45px;
+  font-size: 120%;
+
+  /* Colors */
+  background: #e6e6e6;
+  /* background: #f7f7f7; */
+  /* color: #888 */
+  box-shadow: 0 6px rgba(0, 0, 0, 0.2);
+  color: #888;
+  
 }
 
 
-#background-color {
+.btn:hover {
+  background: #f7f7f7;
+  /* background: #e6e6e6; */
+  /* box-shadow: 0 5px #aaa; */
+  box-shadow: 0 5px #ee509d;
+  /* color: #888 */
+  color: #001521;
+}
+
+/* Imitate a pressed effect for buttons */
+.btn:active {
+  top: 5px;
+  box-shadow: none;
+}
+
+.btn-start {
+  /* float: left; */
+  /* display: block; */
+  position: relative;
+  top: 0;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+  margin: 0 20px 11px;
+  padding: 0 20px;
+  text-align: center;
+  font-family: "Comic Sans MS";
+
+  /* Smoothing out hover using css3 transitions, if not, the pressed button effect looks a bit hard */
+  transition: all 0.2s ease;
+
+  /* Size */
+  line-height: 45px;
+  /* width: 100%; */
+  height: 45px;
+  font-size: 120%;
+
+  /* Colors */
+  background: #e6e6e6;
+  /* background: #f7f7f7; */
+  /* color: #888 */
+  box-shadow: 0 6px rgba(0, 0, 0, 0.2);
+  color: #888;
+  
+}
+
+
+.main-container {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.sub-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+
+  /* width:425px; */
+  /* text-align: center;
+  height:auto;
+  margin: 100px auto 0;
+  display: block; */
+}
+
+/* .row {
+  display:block;
+  width:100%;
+  min-height:50px;
+  height:auto;
+}
+
+.block {
+  display: block;
+}
+
+.clear-fix {
+  clear: both;
+} */
+
+.panel {
+  position: absolute;
+  top: 100px;
+  /* z-index: 42; */
+  padding: 20px;
+  border-radius: 3px;
+  /* background-color: rgba(255, 255, 255, 0.8); */
+}
+
+#canvas-display {
+  display: none;
+}
+
+#instructions-display {
+  display: none;
+  z-index: 2;
+  position: relative;
+  border: solid black 2px;
+
+}
+
+.overlay {
+  display: none;
+  z-index: 1;
+  background: #888;
+  opacity: 0.8;
+}
+
+.game-result-display {
+  display: none;
+  z-index: 2;
+  position: relative;
+
+}
+
+
+#home-background {
+  /* background-color: #0E79B2; */
+  background-color:#2ec1eb;
+  /* background-color:#fff;  */
+  /* background-image: url('../images/colorbars.jpg'); */
+  /* background-repeat: no-repeat; */
+  background-size: cover;
+}
+
+#background1 {
   /* background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%); RED BLINKING WHEN STAMINA IS DROPS BELOW 20*/
   /* background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%); */
   /* background-image: linear-gradient(to top, #4facfe 0%, #00f2fe 100%); CURRENT BEST BACKGROUND */
   /* background-image: linear-gradient(to top, #43e97b 0%, #38f9d7 100%); GREEN BLINKING WHEN 5 CORRECT DANCES MOVES IN A ROW  */
-  background-image: linear-gradient(to top, #0acffe 0%, #495aff 100%);
-  /* width: 100%;
+  /* background-image: linear-gradient(to top, #0acffe 0%, #495aff 100%); */
+   /* width: 100%;
   height: 100%; */
+  background-image: url('../images/stilldancebackground.jpg');
   background-size: cover;
   
 }
+
+#background2 {
+  background-image: url('../images/lightspartydancingmusic.jpg');
+  background-size: cover;
+  opacity: 0.6;
+}
+

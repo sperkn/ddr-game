@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,27 +10,78 @@
   <link rel="stylesheet" href="./stylesheets/style.css">
 </head>
 
-<body>
+<body id="home-background">
   <div id="game-intro">
-    <img src="./images/DDR2009Logo.png" alt="main-logo" class="logo-img">
-    <br>
-    <button id="start-button">StartGame</button>
+    <!-- <img src="./images/DDR2009Logo.png" alt="main-logo" class="logo-img"> -->
+    <header>
+      <h1>Dancing Fingers</h1>
+    </header>
+    <h2>Main Menu</h2>
+    <div class="sub-container">
+      <button id="instructions" class="btn">Instructions</button>
+      <button id="start" class="btn-start">Start Game</button>
+    </div>
+    <div class="sub-container">
+      <h3>Players</h3>
+      <div class="sub-container">
+        <button class="btn">1 Player</button>
+        <button class="btn">2 Player</button>
+      </div>
+      <h3>Levels</h3>
+      <div class="sub-container">
+        <button class="btn">Easy</button>
+        <button class="btn">Medium</button>
+        <button class="btn">Hard</button>
+        <button class="btn">Expert</button>
+      </div>
+    </div>
+    <h3>Songs</h3>
+    <div class="sub-container">
+      <button class="btn nirvana">Heart Shaped Box - Nirvana</button>
+      <button class="btn red-hot">Hey - Red Hot Chili Peppers</button>
+      <button class="btn dre">Still Dre - Dr. Dre</button>
+      <button class="btn blink">What's My Age Again? - Blink-182</button>
+      <button class="btn sweet-dreams">Sweet Dreams (Remix) - Steve Angello</button>
+    </div>
+
+    <!-- <div class="sub-container">
+      
+    </div> -->
+  </div>
+
+  <div id="instructions-display">
     <h3>Instructions:</h3>
-    <p>Press the corresponding arrow key (<img src="./images/arrowkeys.png" alt="arrow-keys" class="arrows-img" width="100" height="50">)
-      as soon as the falling game arrow crosses the matching arrow on the "dance floor". Time it just right and your 
-      dancing stamina remains the same, but mistime it and your dancing stamina decreases. Too many
-      missteps and you'll have to hang up your dancing fingers. </p>
+    <p>Press the corresponding arrow key
+      <!-- (<img src="./images/arrowkeys.png" alt="arrow-keys" class="arrows-img" width="100" height="50">) -->
+      as soon as the falling game arrow crosses the matching arrow on the "dance floor". Time it just right and your dancing stamina
+      remains the same, but mistime it and your dancing stamina decreases. Too many missteps and you'll have to hang up your
+      dancing fingers. </p>
     <p>Get through the song with the highest stamina and be crowned the dancing guru!</p>
     <h4>Tips:</h4>
     <ol>
-      <li>The dancing floor boxes flash red(miss) or green(success) depending on if the arrow key is pressed at the correct time.</li>
-      <li>Your stamina decreases 5 for every incorrect dance move. When your stamina drops below 20, the screen will blink red.</li>
-      <li>After 5 correct dance moves in a row, the screen will blink green. Your stamina increases 10 for every 10 correct dance moves in a row.</li>
-    </ol>  
+      <li>The dancing floor boxes flash red(miss) or green(success) depending on if the arrow key is pressed at the correct time.
+      </li>
+      <li>Your stamina decreases 5 for every incorrect dance move. When your stamina drops below 20, the screen will blink red.
+      </li>
+      <li>After 5 correct dance moves in a row, the screen will blink green. Your stamina increases 10 for every 10 correct dance
+        moves in a row.</li>
+    </ol>
   </div>
-  <div id="display">
-    <canvas id="game-canvas" width="800" height="700"></canvas>
+
+  <div id="canvas-display">
+    <div class="sub-container">
+      <canvas id="game-canvas" width="800" height="800"></canvas>
+      <audio>
+        <source src="" type="audio/mpeg">
+        <!-- <source src="horse.mp3" type="audio/mpeg"> -->
+        Your browser does not support the audio tag.
+      </audio>
+    </div>
+  </div>
+  <div class="game-result-overlay game-result-display">
+    You Win!
   </div>
   <script type="text/javascript" src="./src/dance.js"></script>
 </body>
+
 </html>
