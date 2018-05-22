@@ -37,90 +37,167 @@ window.onload = function() {
   //general function for all buttons so the "blur" doesnt show around border when clicked
   $('.btn').mouseup(function() {this.blur();});
 
+  // $('#start').disabled = true;
+
   //functions for toggling the player buttons when they are clicked
   $("#one-player").on("click", function(event) {
     $(this).toggleClass("active");
-    if($('#two-player').hasClass('active')){
-      $('#two-player').toggleClass('active');
+    if($("#two-player").hasClass("active")){
+      $("#two-player").toggleClass("active");
     }
   });
 
-  $('#two-player').on('click', function(event) {
+  $("#two-player").on('click', function(event) {
+    // console.log("wtf");
     $(this).toggleClass("active");
-    if($('#one-player').hasClass('active')){
-      $('#one-player').toggleClass('active');
+    if($("#one-player").hasClass("active")){
+      $("#one-player").toggleClass("active");
     }
   });
   
 
   // functions for toggling the difficulty buttons when they are clicked
-  $('.diff-btn').on('click', function(event) {
-    $(this).toggleClass('active');
-    let difficultyId = ["#easy", "#medium", "hard", "expert"];
-    for (i=0; i<difficultyId.length; i++) {
-      if(difficultyId[i] == $(this)) {
-        continue;
-      } else {
-        difficultyId.removeClass('active')[i];
-      }
+  $("#easy").on('click', function(event) {
+    // console.log("wtf");
+    $(this).toggleClass("active");
+    if ($("#medium").hasClass("active")) {
+      $("#medium").toggleClass("active");
     }
-    // let selectedButton = $(this);
-    // selectedButton.toggleClass("active");
-    // let allDifficultyButtons = $(".diff-btn");
-    // // selectedButton.toggleClass("active");
-    // for (i=0; i<allDifficultyButtons.length; i++) {
-    //   // let allDifficultyButtons = $(".diff-btn");
-    //   if(allDifficultyButtons[i]==selectedButton) {
-    //     console.log("WTF");
-    //   } else {
-    //     allDifficultyButtons.removeClass("active")[i];
-    //   }
-        // continue;
-      // } else {
-      //   (allDifficultyButtons[i]).removeClass("active");
-      // }
-    // }
-    // $(this).toggleClass("active");
-    // if ($("#easy").hasClass("active")) {
-
-    // }
-    // $(".diff-btn").removeClass("active");
-
-    // if (event!=event) {
-    //   $(".diff-btn").removeClass("active");
-    // }
-    // switch (!$(".diff-btn")) {
-    //   case $("#easy"): 
-    //     $("#easy").removeClass("active");
-    //     break;
-    //   case $("#medium"): 
-    //     $("#medium").removeClass("active");
-    //     break;
-    //   case $("#hard"): 
-    //     $("#hard").removeClass("active");
-    //     break;
-    //   case $("#expert"): 
-    //     $("#expert").removeClass("active");
-    //     break;
-    //  }
-    // if ($(".diff-btn").hasClass("active")){
-    //   $(".diff-btn").toggleClass("active"); 
-    //   $(this).toggleClass("active");
-    // } else {
-    //   $(this).toggleClass("active");
-    // }
-    // switch($("id")) {
-    //   case
-    // }
+    if ($("#hard").hasClass("active")) {
+      $("#hard").toggleClass("active");
+    }
+    if ($('#expert').hasClass("active")) {
+      $('#expert').toggleClass("active");
+    }
   });
 
-  // $("#two-player").on("click", function(event) {
-  //   $(this).toggleClass("active");
-  //   if($("#one-player").hasClass("active")){
-  //     $("#one-player").toggleClass("active");
-  //   }
-  // });
+  $("#medium").on('click', function(event) {
+    // console.log("wtf");
+    $(this).toggleClass("active");
+    if ($("#easy").hasClass("active")) {
+      $("#easy").toggleClass("active");
+    }
+    if ($("#hard").hasClass("active")) {
+      $("#hard").toggleClass("active");
+    }
+    if ($('#expert').hasClass("active")) {
+      $('#expert').toggleClass("active");
+    }
+  });
 
+  $("#hard").on('click', function(event) {
+    // console.log("wtf");
+    $(this).toggleClass("active");
+    if ($("#easy").hasClass("active")) {
+      $("#easy").toggleClass("active");
+    }
+    if ($("#medium").hasClass("active")) {
+      $("#medium").toggleClass("active");
+    }
+    if ($('#expert').hasClass("active")) {
+      $('#expert').toggleClass("active");
+    }
+  });
+
+  $("#expert").on('click', function(event) {
+    // console.log("wtf");
+    $(this).toggleClass("active");
+    if ($("#easy").hasClass("active")) {
+      $("#easy").toggleClass("active");
+    }
+    if ($("#medium").hasClass("active")) {
+      $("#medium").toggleClass("active");
+    }
+    if ($("#hard").hasClass("active")) {
+      $("#hard").toggleClass("active");
+    }
+  });
+
+  //functions for toggling the song buttons when they are clicked
+  $('#nirvana').on('click', function(event) {
+    $(this).toggleClass("active");
+    if ($('#red-hot').hasClass("active")) {
+      $('#red-hot').toggleClass("active");
+    }
+    if ($('#dre').hasClass("active")) {
+      $('#dre').toggleClass("active");
+    }
+    if ($('#blink').hasClass("active")) {
+      $('#blink').toggleClass("active");
+    }
+    if ($('#sweet-dreams').hasClass("active")) {
+      $('#sweet-dreams').toggleClass("active");
+    }
+  });
+
+  $('#red-hot').on('click', function(event) {
+    $(this).toggleClass("active");
+    if ($('#nirvana').hasClass("active")) {
+      $('#nirvana').toggleClass("active");
+    }
+    if ($('#dre').hasClass("active")) {
+      $('#dre').toggleClass("active");
+    }
+    if ($('#blink').hasClass("active")) {
+      $('#blink').toggleClass("active");
+    }
+    if ($('#sweet-dreams').hasClass("active")) {
+      $('#sweet-dreams').toggleClass("active");
+    }
+  });
+  
+  $('#dre').on('click', function(event) {
+    $(this).toggleClass("active");
+    if ($('#nirvana').hasClass("active")) {
+      $('#nirvana').toggleClass("active");
+    }
+    if ($('#red-hot').hasClass("active")) {
+      $('#red-hot').toggleClass("active");
+    }
+    if ($('#blink').hasClass("active")) {
+      $('#blink').toggleClass("active");
+    }
+    if ($('#sweet-dreams').hasClass("active")) {
+      $('#sweet-dreams').toggleClass("active");
+    }
+  });
+
+  $('#blink').on('click', function(event) {
+    $(this).toggleClass("active");
+    if ($('#nirvana').hasClass("active")) {
+      $('#nirvana').toggleClass("active");
+    }
+    if ($('#red-hot').hasClass("active")) {
+      $('#red-hot').toggleClass("active");
+    }
+    if ($('#dre').hasClass("active")) {
+      $('#dre').toggleClass("active");
+    }
+    if ($('#sweet-dreams').hasClass("active")) {
+      $('#sweet-dreams').toggleClass("active");
+    }
+  });
+
+  $('#sweet-dreams').on('click', function(event) {
+    $(this).toggleClass("active");
+    if ($('#nirvana').hasClass("active")) {
+      $('#nirvana').toggleClass("active");
+    }
+    if ($('#red-hot').hasClass("active")) {
+      $('#red-hot').toggleClass("active");
+    }
+    if ($('#dre').hasClass("active")) {
+      $('#dre').toggleClass("active");
+    }
+    if ($('#blink').hasClass("active")) {
+      $('#blink').toggleClass("active");
+    }
+  });
+
+  // if ()
+//**end code for button functionality**
+
+//***until noted otherwise, the following code below is for game functionality***
   document.getElementById('start').onclick = function() {
     removeStartScreen();
     setGameBackground();
@@ -140,18 +217,18 @@ window.onload = function() {
     }
   function removeStartScreen() {
     // remove the "canvas-display" class from the canvas tag in order to allow canvas to be shown
-    let initialScreen = document.getElementById('game-intro');
+    let initialScreen = document.getElementById("game-intro");
     initialScreen.innerHTML = "";
-    let gameboard = document.getElementById('canvas-display');
-    gameboard.setAttribute('id', '');
+    let gameboard = document.getElementById("canvas-display");
+    gameboard.setAttribute("id", "");
     // gamboard.style.display = "block";
   }
 
   function setGameBackground() {
     
     // set the background color scheme
-    let background = document.getElementById('home-background');
-    background.setAttribute('id', 'background1');
+    let background = document.getElementById("home-background");
+    background.setAttribute("id", "background1");
   }
 
   function startGame() {

@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="./stylesheets/style.css">
 </head>
 
-<body id="home-background" class="overlay">
+<body id="home-background">
   <div id="game-intro">
     <!-- <img src="./images/DDR2009Logo.png" alt="main-logo" class="logo-img"> -->
     <header>
@@ -19,7 +19,7 @@
     <h2>Main Menu</h2>
     <div class="sub-container">
       <button id="instructions-btn" class="btn">Instructions</button>
-      <button disabled id="start" class="btn">Start Game</button>
+      <button id="start" class="btn">Start Game</button>
     </div>
     <div class="sub-container">
       <h3>Players</h3>
@@ -33,25 +33,18 @@
         <button id="medium" class="btn diff-btn">Medium</button>
         <button id="hard" class="btn diff-btn">Hard</button>
         <button id="expert" class="btn diff-btn">Expert</button>
-        <!-- <button class="btn diff-btn">Easy</button>
-        <button class="btn diff-btn">Medium</button>
-        <button class="btn diff-btn">Hard</button>
-        <button class="btn diff-btn">Expert</button> -->
       </div>
     </div>
     <h3>Songs</h3>
     <div class="sub-container">
-      <button class="btn nirvana">Heart Shaped Box - Nirvana</button>
-      <button class="btn red-hot">Hey - Red Hot Chili Peppers</button>
-      <button class="btn dre">Still Dre - Dr. Dre</button>
-      <button class="btn blink">What's My Age Again? - Blink-182</button>
-      <button class="btn sweet-dreams">Sweet Dreams (Remix) - Steve Angello</button>
+      <button id="blink" class="btn">What's My Age Again? - Blink-182</button>
+      <button id="dre" class="btn">Still Dre - Dr. Dre</button>
+      <button id="nirvana" class="btn">Heart Shaped Box - Nirvana</button>
+      <button id="red-hot" class="btn">Hey - Red Hot Chili Peppers</button>
+      <button id="sweet-dreams" class="btn">Sweet Dreams (Remix) - Steve Angello</button>
     </div>
-
-    <!-- <div class="sub-container">
-      
-    </div> -->
   </div>
+
   <div id="instructions-display">
     <div class="sub-container">
       <h3>Instructions:</h3>
@@ -75,7 +68,7 @@
     </div>
   </div>
 
-  <div id="overlay canvas-display">
+  <div id="canvas-display">
     <div class="sub-container">
       <canvas id="game-canvas" width="800" height="800"></canvas>
       <audio>
@@ -85,10 +78,15 @@
       </audio>
     </div>
   </div>
-  <div class="overlay game-result-display">
+  <div id="overlay"></div>
+  <div class="game-result-display">
     You Win!
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script> -->
   <script type="text/javascript" src="./src/dance.js"></script>
 </body>
 
