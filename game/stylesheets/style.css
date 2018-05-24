@@ -48,6 +48,34 @@ ol, ul {
   
 } */
 /*<----BUTTON CONTROLS----->*/
+.non-hover-btn {
+  position: relative;
+  top: 0;
+  /* cursor: pointer; */
+  border: none;
+  border-radius: 3px;
+  margin: 0 20px 11px;
+  padding: 0 20px;
+  text-align: center;
+  font-family: Georgia;
+
+  /* Smoothing out hover using css3 transitions, if not, the pressed button effect looks a bit hard */
+  transition: all 0.2s ease;
+
+  /* Size */
+  line-height: 45px;
+  /* width: 100%; */
+  height: 45px;
+  font-size: 110%;
+
+  /* Colors */
+  background: #e6e6e6;
+  /* background: #f7f7f7; */
+  /* color: #888 */
+  box-shadow: 0 6px rgba(0, 0, 0, 0.2);
+  color: #888;
+}
+
 .btn {
   /* float: left; */
   /* display: block; */
@@ -79,7 +107,6 @@ ol, ul {
   
 }
 
-
 .btn:hover {
   background: #f7f7f7;
   /* background: #e6e6e6; */
@@ -88,6 +115,7 @@ ol, ul {
   /* color: #888 */
   color: #001521;
 }
+
 
 /* Imitate a pressed effect for buttons */
 .btn:active {

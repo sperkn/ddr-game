@@ -36,161 +36,245 @@ window.onload = function() {
   
   //general function for all buttons so the "blur" doesnt show around border when clicked
   $('.btn').mouseup(function() {this.blur();});
+  $('.non-hover-btn').mouseup(function() {this.blur();});
 
-  // $('#start').disabled = true;
+  //general function for initializing the difficulty buttons since they will be used multiple times
+  let activateDifficulty = $('.diff-btn');
+  
+  //functions for toggling the player buttons when they are clicked and enabling/disabling difficulty buttons
+  // $('#my-input-id').prop('disabled', false);
 
-  //functions for toggling the player buttons when they are clicked
-  $("#one-player").on("click", function(event) {
-    $(this).toggleClass("active");
-    if($("#two-player").hasClass("active")){
-      $("#two-player").toggleClass("active");
+  //one-player button functionality
+  $('#one-player').on('click', function(event) {
+    $(this).toggleClass('active');
+    if ($('#one-player').hasClass('active') && $('.diff-btn').hasClass('non-hover-btn')) {
+      $('.diff-btn').toggleClass('non-hover-btn btn');
+      // $('#expert').toggleClass('non-hover-btn btn');
+      for (i=0; i<activateDifficulty.length;i++) {
+          activateDifficulty[i].disabled = false;
+        }
+      // $('.diff-btn').disabled = false;
+      // $('#expert').disabled = false;
+      // $('.diff-btn').prop('disabled', false);
+      // for (i=0; i<activateDifficulty.length;i++) {
+      //   activateDifficulty[i].disabled = false;
+      // }
+    } else if ($('#one-player').hasClass('active')) {
+        // $('.diff-btn').toggleClass('btn non-hover-btn');
+        // $('.diff-btn').disabled = false;
+        // $('#expert').disabled = false;
+        for (i=0; i<activateDifficulty.length;i++){
+        activateDifficulty[i].disabled = false;
+        }
+      } else {
+        $('.diff-btn').toggleClass('btn non-hover-btn');
+        // $('.diff-btn').disabled = true;
+        // $('#expert').disabled = true;
+        for (i=0; i<activateDifficulty.length;i++) {
+        activateDifficulty[i].disabled = true;
+        }
+      }
+    if($('#two-player').hasClass('active')){
+      $('#two-player').toggleClass('active');
     }
   });
 
-  $("#two-player").on('click', function(event) {
-    // console.log("wtf");
-    $(this).toggleClass("active");
-    if($("#one-player").hasClass("active")){
-      $("#one-player").toggleClass("active");
+  //two player button functionality
+  $('#two-player').on('click', function(event) {
+    $(this).toggleClass('active');
+    $('#expert').disabled = true;
+    if ($('#two-player').hasClass('active') && $('.diff-btn').hasClass('non-hover-btn')) {
+      $('.diff-btn').toggleClass('non-hover-btn btn');
+      for (i=0; i<activateDifficulty.length-1;i++){
+        activateDifficulty[i].disabled = false;
+      }
+      // $('#expert').disabled = true;
+      // $('.diff-btn').toggleClass('non-hover-btn btn');
+      // $('.diff-btn').disabled = false;
+      // $('#expert').toggleClass('btn non-hover-btn');
+      // $('#expert').toggleClass('btn non-hover-btn');
+      // $('#expert').disabled = true;
+    } else if ($('#two-player').hasClass('active')) {
+        // $('#expert').disabled = true;
+        // $('.diff-btn').toggleClass('btn non-hover-btn');
+        // $('.diff-btn').disabled = false;
+        // $('#expert').disabled = true;
+        // $('#expert').toggleClass('btn non-hover-btn');
+        for (i=0; i<activateDifficulty.length-1;i++){
+        activateDifficulty[i].disabled = false;
+        }
+        // $('#expert').disabled = true;
+      } else {
+        $('.diff-btn').toggleClass('btn non-hover-btn');
+        // $('.diff-btn').disabled = true;
+        for (i=0; i<activateDifficulty.length-1;i++){
+        activateDifficulty[i].disabled = true;
+        }
+      }
+    if($('#one-player').hasClass('active')){
+      $('#one-player').toggleClass('active');
+      // $('#expert').disabled = true;
     }
   });
   
 
   // functions for toggling the difficulty buttons when they are clicked
-  $("#easy").on('click', function(event) {
+  $('#easy').on('click', function(event) {
     // console.log("wtf");
     $(this).toggleClass("active");
-    if ($("#medium").hasClass("active")) {
-      $("#medium").toggleClass("active");
+    if ($('#medium').hasClass('active')) {
+      $('#medium').toggleClass('active');
     }
-    if ($("#hard").hasClass("active")) {
-      $("#hard").toggleClass("active");
+    if ($('#hard').hasClass('active')) {
+      $('#hard').toggleClass('active');
     }
-    if ($('#expert').hasClass("active")) {
-      $('#expert').toggleClass("active");
+    if ($('#expert').hasClass('active')) {
+      $('#expert').toggleClass('active');
     }
   });
 
-  $("#medium").on('click', function(event) {
+  $('#medium').on('click', function(event) {
     // console.log("wtf");
-    $(this).toggleClass("active");
-    if ($("#easy").hasClass("active")) {
-      $("#easy").toggleClass("active");
+    $(this).toggleClass('active');
+    if ($('#easy').hasClass('active')) {
+      $('#easy').toggleClass('active');
     }
-    if ($("#hard").hasClass("active")) {
-      $("#hard").toggleClass("active");
+    if ($('#hard').hasClass('active')) {
+      $('#hard').toggleClass('active');
     }
-    if ($('#expert').hasClass("active")) {
-      $('#expert').toggleClass("active");
+    if ($('#expert').hasClass('active')) {
+      $('#expert').toggleClass('active');
     }
   });
 
-  $("#hard").on('click', function(event) {
+  $('#hard').on('click', function(event) {
     // console.log("wtf");
     $(this).toggleClass("active");
-    if ($("#easy").hasClass("active")) {
-      $("#easy").toggleClass("active");
+    if ($('#easy').hasClass('active')) {
+      $('#easy').toggleClass('active');
     }
-    if ($("#medium").hasClass("active")) {
-      $("#medium").toggleClass("active");
+    if ($('#medium').hasClass('active')) {
+      $('#medium').toggleClass('active');
     }
-    if ($('#expert').hasClass("active")) {
-      $('#expert').toggleClass("active");
+    if ($('#expert').hasClass('active')) {
+      $('#expert').toggleClass('active');
     }
   });
 
-  $("#expert").on('click', function(event) {
+  $('#expert').on('click', function(event) {
     // console.log("wtf");
-    $(this).toggleClass("active");
-    if ($("#easy").hasClass("active")) {
-      $("#easy").toggleClass("active");
+    $(this).toggleClass('active');
+    if ($('#easy').hasClass('active')) {
+      $('#easy').toggleClass('active');
     }
-    if ($("#medium").hasClass("active")) {
-      $("#medium").toggleClass("active");
+    if ($('#medium').hasClass('active')) {
+      $('#medium').toggleClass('active');
     }
-    if ($("#hard").hasClass("active")) {
-      $("#hard").toggleClass("active");
+    if ($('#hard').hasClass('active')) {
+      $('#hard').toggleClass('active');
     }
   });
 
   //functions for toggling the song buttons when they are clicked
+  let userSong = document.querySelector('audio');
+
   $('#nirvana').on('click', function(event) {
     $(this).toggleClass("active");
-    if ($('#red-hot').hasClass("active")) {
-      $('#red-hot').toggleClass("active");
+    if ($('#nirvana').hasClass('active')) {
+      $('source').attr('src', './Music/HeartShapedBox.mp3');
+      userSong.load();
     }
-    if ($('#dre').hasClass("active")) {
-      $('#dre').toggleClass("active");
+    if ($('#red-hot').hasClass('active')) {
+      $('#red-hot').toggleClass('active');
     }
-    if ($('#blink').hasClass("active")) {
-      $('#blink').toggleClass("active");
+    if ($('#dre').hasClass('active')) {
+      $('#dre').toggleClass('active');
     }
-    if ($('#sweet-dreams').hasClass("active")) {
-      $('#sweet-dreams').toggleClass("active");
+    if ($('#blink').hasClass('active')) {
+      $('#blink').toggleClass('active');
+    }
+    if ($('#sweet-dreams').hasClass('active')) {
+      $('#sweet-dreams').toggleClass('active');
     }
   });
 
   $('#red-hot').on('click', function(event) {
     $(this).toggleClass("active");
-    if ($('#nirvana').hasClass("active")) {
-      $('#nirvana').toggleClass("active");
+    if ($('#red-hot').hasClass('active')) {
+      $('source').attr('src', './Music/Hey_Red_Hot.m4a');
+      userSong.load();
     }
-    if ($('#dre').hasClass("active")) {
-      $('#dre').toggleClass("active");
+    if ($('#nirvana').hasClass('active')) {
+      $('#nirvana').toggleClass('active');
     }
-    if ($('#blink').hasClass("active")) {
-      $('#blink').toggleClass("active");
+    if ($('#dre').hasClass('active')) {
+      $('#dre').toggleClass('active');
     }
-    if ($('#sweet-dreams').hasClass("active")) {
-      $('#sweet-dreams').toggleClass("active");
+    if ($('#blink').hasClass('active')) {
+      $('#blink').toggleClass('active');
+    }
+    if ($('#sweet-dreams').hasClass('active')) {
+      $('#sweet-dreams').toggleClass('active');
     }
   });
   
   $('#dre').on('click', function(event) {
     $(this).toggleClass("active");
-    if ($('#nirvana').hasClass("active")) {
-      $('#nirvana').toggleClass("active");
+    if ($('#dre').hasClass('active')) {
+      $('source').attr('src', './Music/Still_Dre.mp3');
+      userSong.load();
     }
-    if ($('#red-hot').hasClass("active")) {
-      $('#red-hot').toggleClass("active");
+    if ($('#nirvana').hasClass('active')) {
+      $('#nirvana').toggleClass('active');
     }
-    if ($('#blink').hasClass("active")) {
-      $('#blink').toggleClass("active");
+    if ($('#red-hot').hasClass('active')) {
+      $('#red-hot').toggleClass('active');
     }
-    if ($('#sweet-dreams').hasClass("active")) {
-      $('#sweet-dreams').toggleClass("active");
+    if ($('#blink').hasClass('active')) {
+      $('#blink').toggleClass('active');
+    }
+    if ($('#sweet-dreams').hasClass('active')) {
+      $('#sweet-dreams').toggleClass('active');
     }
   });
 
   $('#blink').on('click', function(event) {
-    $(this).toggleClass("active");
-    if ($('#nirvana').hasClass("active")) {
-      $('#nirvana').toggleClass("active");
+    $(this).toggleClass('active');
+    if ($('#blink').hasClass('active')) {
+      $('source').attr('src', './Music/Whats_My_Age_Again_.mp3');
+      userSong.load();
     }
-    if ($('#red-hot').hasClass("active")) {
-      $('#red-hot').toggleClass("active");
+    if ($('#nirvana').hasClass('active')) {
+      $('#nirvana').toggleClass('active');
     }
-    if ($('#dre').hasClass("active")) {
-      $('#dre').toggleClass("active");
+    if ($('#red-hot').hasClass('active')) {
+      $('#red-hot').toggleClass('active');
     }
-    if ($('#sweet-dreams').hasClass("active")) {
-      $('#sweet-dreams').toggleClass("active");
+    if ($('#dre').hasClass('active')) {
+      $('#dre').toggleClass('active');
+    }
+    if ($('#sweet-dreams').hasClass('active')) {
+      $('#sweet-dreams').toggleClass('active');
     }
   });
 
   $('#sweet-dreams').on('click', function(event) {
-    $(this).toggleClass("active");
-    if ($('#nirvana').hasClass("active")) {
-      $('#nirvana').toggleClass("active");
+    $(this).toggleClass('active');
+    if ($('#sweet-dreams').hasClass('active')) {
+      $('source').attr('src', './Music/Sweet_Dreams_Remix.mp3');
+      userSong.load();
     }
-    if ($('#red-hot').hasClass("active")) {
-      $('#red-hot').toggleClass("active");
+    if ($('#nirvana').hasClass('active')) {
+      $('#nirvana').toggleClass('active');
     }
-    if ($('#dre').hasClass("active")) {
-      $('#dre').toggleClass("active");
+    if ($('#red-hot').hasClass('active')) {
+      $('#red-hot').toggleClass('active');
     }
-    if ($('#blink').hasClass("active")) {
-      $('#blink').toggleClass("active");
+    if ($('#dre').hasClass('active')) {
+      $('#dre').toggleClass('active');
+    }
+    if ($('#blink').hasClass('active')) {
+      $('#blink').toggleClass('active');
     }
   });
 
@@ -202,8 +286,9 @@ window.onload = function() {
     removeStartScreen();
     setGameBackground();
     startGame();
-    // let introSong = document.querySelector('audio');
-    // introSong.play();
+    // let userSong = document.querySelector('audio');
+    // userSong.load();
+    userSong.play();
 
     interval();
     // checkOutcome();
