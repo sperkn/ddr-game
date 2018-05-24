@@ -39,7 +39,9 @@ window.onload = function() {
   $('.non-hover-btn').mouseup(function() {this.blur();});
 
   //general function for initializing the difficulty buttons since they will be used multiple times
-  let activateDifficulty = $('.diff-btn');
+  let difficultyButtons = $('.diff-btn');
+  let difficultyLevelIds = ['#easy', '#medium', '#hard', '#expert'];
+  let playerIds = ['#one-player', '#two-player'];
   
   //functions for toggling the player buttons when they are clicked and enabling/disabling difficulty buttons
   // $('#my-input-id').prop('disabled', false);
@@ -47,81 +49,110 @@ window.onload = function() {
   //one-player button functionality
   $('#one-player').on('click', function(event) {
     $(this).toggleClass('active');
-    if ($('#one-player').hasClass('active') && $('.diff-btn').hasClass('non-hover-btn')) {
-      $('.diff-btn').toggleClass('non-hover-btn btn');
-      // $('#expert').toggleClass('non-hover-btn btn');
-      for (i=0; i<activateDifficulty.length;i++) {
-          activateDifficulty[i].disabled = false;
-        }
-      // $('.diff-btn').disabled = false;
-      // $('#expert').disabled = false;
-      // $('.diff-btn').prop('disabled', false);
-      // for (i=0; i<activateDifficulty.length;i++) {
-      //   activateDifficulty[i].disabled = false;
-      // }
-    } else if ($('#one-player').hasClass('active')) {
-        // $('.diff-btn').toggleClass('btn non-hover-btn');
-        // $('.diff-btn').disabled = false;
-        // $('#expert').disabled = false;
-        for (i=0; i<activateDifficulty.length;i++){
-        activateDifficulty[i].disabled = false;
-        }
-      } else {
-        $('.diff-btn').toggleClass('btn non-hover-btn');
-        // $('.diff-btn').disabled = true;
-        // $('#expert').disabled = true;
-        for (i=0; i<activateDifficulty.length;i++) {
-        activateDifficulty[i].disabled = true;
-        }
-      }
-    if($('#two-player').hasClass('active')){
+    if  ($('#two-player').hasClass('active')){
       $('#two-player').toggleClass('active');
     }
-  });
+    if ($('#expert').hasClass('exp-non-hover')) {
+      $('#expert').toggleClass('exp-non-hover btn');
+    }
 
-  //two player button functionality
+    if ($('#one-player').hasClass('active') && $(difficultyLevelIds[1]).hasClass('non-hover-btn')) {
+      // difficultyButtons.disabled = false;
+      for(i=0;i<difficultyLevelIds.length;i++) {
+        // $(difficultyLevelIds[i]).toggleClass('active');
+        $(difficultyLevelIds[i]).toggleClass('non-hover-btn btn');
+        difficultyButtons[i].disabled = false;
+      }
+    } else if ($('#one-player').hasClass('active')) {
+        for(i=0;i<difficultyLevelIds.length;i++){
+        // $(difficultyLevelIds[i]).toggleClass('active');
+        difficultyButtons[i].disabled = false;
+        }
+      } else if ($(difficultyLevelIds[1]).hasClass('btn')) {
+        // difficultyButtons.disabled = true;
+        for(i=0;i<difficultyLevelIds.length;i++){
+          // $(difficultyLevelIds[i]).toggleClass('active');
+          $(difficultyLevelIds[i]).toggleClass('btn non-hover-btn');
+          difficultyButtons[i].disabled = true;
+          if ($(difficultyLevelIds[i]).hasClass('active')) {
+          $(difficultyLevelIds[i]).toggleClass('active');
+          }
+        }
+      } else {
+          // difficultyButtons.disabled = true;
+          for(i=0;i<difficultyLevelIds.length;i++){
+            // $(difficultyLevelIds[i]).toggleClass('active');
+            difficultyButtons[i].disabled = true;
+            if ($(difficultyLevelIds[i]).hasClass('active')) {
+            $(difficultyLevelIds[i]).toggleClass('active');
+            }
+          }
+        }
+  });
+  //two-player button functionality
   $('#two-player').on('click', function(event) {
     $(this).toggleClass('active');
-    $('#expert').disabled = true;
-    if ($('#two-player').hasClass('active') && $('.diff-btn').hasClass('non-hover-btn')) {
-      $('.diff-btn').toggleClass('non-hover-btn btn');
-      for (i=0; i<activateDifficulty.length-1;i++){
-        activateDifficulty[i].disabled = false;
-      }
-      // $('#expert').disabled = true;
-      // $('.diff-btn').toggleClass('non-hover-btn btn');
-      // $('.diff-btn').disabled = false;
-      // $('#expert').toggleClass('btn non-hover-btn');
-      // $('#expert').toggleClass('btn non-hover-btn');
-      // $('#expert').disabled = true;
-    } else if ($('#two-player').hasClass('active')) {
-        // $('#expert').disabled = true;
-        // $('.diff-btn').toggleClass('btn non-hover-btn');
-        // $('.diff-btn').disabled = false;
-        // $('#expert').disabled = true;
-        // $('#expert').toggleClass('btn non-hover-btn');
-        for (i=0; i<activateDifficulty.length-1;i++){
-        activateDifficulty[i].disabled = false;
-        }
-        // $('#expert').disabled = true;
-      } else {
-        $('.diff-btn').toggleClass('btn non-hover-btn');
-        // $('.diff-btn').disabled = true;
-        for (i=0; i<activateDifficulty.length-1;i++){
-        activateDifficulty[i].disabled = true;
-        }
-      }
+    $('#expert').prop('disabled', true);
+
     if($('#one-player').hasClass('active')){
       $('#one-player').toggleClass('active');
-      // $('#expert').disabled = true;
     }
+
+    if ($('#expert').hasClass('active')) {
+      $('#expert').toggleClass('active');
+    } 
+
+    if ($('#expert').hasClass('btn')) {
+      $('#expert').toggleClass('btn exp-non-hover');
+    } 
+    
+    if ($('#expert').hasClass('non-hover-btn')) {
+      $('#expert').toggleClass('non-hover-btn exp-non-hover');
+    }
+
+    if ($('#two-player').hasClass('active') && $(difficultyLevelIds[1]).hasClass('non-hover-btn')) {
+      $('#expert').disabled = true;
+      for(i=0;i<difficultyLevelIds.length-1;i++) {
+        $(difficultyLevelIds[i]).toggleClass('non-hover-btn btn');
+        difficultyButtons[i].disabled = false;
+      }
+    } else if ($('#two-player').hasClass('active')) {
+        $('#expert').disabled = true;
+        difficultyButtons.disabled = false;
+        for(i=0;i<difficultyLevelIds.length-1;i++){
+        difficultyButtons[i].disabled = false;
+        }
+      } else if ($(difficultyLevelIds[1]).hasClass('btn')) {
+        $('#expert').disabled = true;
+        for(i=0;i<difficultyLevelIds.length-1;i++){
+          $(difficultyLevelIds[i]).toggleClass('btn non-hover-btn');
+          difficultyButtons[i].disabled = true;
+          if ($(difficultyLevelIds[i]).hasClass('active')) {
+          $(difficultyLevelIds[i]).toggleClass('active');
+          }
+        }
+      } else {
+          $('#expert').disabled = true;
+          for(i=0;i<difficultyLevelIds.length-1;i++){
+            difficultyButtons[i].disabled = true;
+            if ($(difficultyLevelIds[i]).hasClass('active')) {
+              $(difficultyLevelIds[i]).toggleClass('active');
+            }
+          }
+        }
   });
-  
 
   // functions for toggling the difficulty buttons when they are clicked
   $('#easy').on('click', function(event) {
     // console.log("wtf");
     $(this).toggleClass("active");
+    if($('#easy').hasClass('active')) {
+      $('#red-hot').disabled = false;
+      $('#red-hot').toggleClass('active');
+      $('#red-hot').toggleClass('active');
+    } else {
+      $('#red-hot').disabled = true;
+    }
     if ($('#medium').hasClass('active')) {
       $('#medium').toggleClass('active');
     }
