@@ -4,34 +4,6 @@ window.onload = function() {
   let theCanvas = document.getElementById('game-canvas');
   let ctx = theCanvas.getContext('2d');
 
-  // let introSong = document.querySelector('audio');
-  // introSong.play();
-
-  //***NEED TO FIX POP UP FOR INSTRUCTIONS!!!**
-  // document.getElementById("instructions-btn").onclick = function() {
-  //   let instructions = document.getElementById("instructions-display");
-  //   let overlay = document.getElementsByClassName("overlay");
-
-  //   if (instructions.style.display === "none") {
-  //     instructions.style.display = "block";
-  //   } else {
-  //     instructions.style.display = "none";
-  //   }
-  //   // if (instructions.style.display === "block") {
-  //   // instructions.style.display = "none";
-  //   // } else if (instructions.style.display === "none") {
-  //   //   instructions.style.display = "block";
-  //   // }
-  // };
-
-  // if ($(this).attr("disabled")){
-    // $("#two-player").attr("disabled", true);
-    // $(this).attr("disabled", false);
-    // $(this).toggleClass("active");
-    // } else {
-    //   $(this).toggleClass("active");
-    //   $("#two-player").attr("disabled", true);
-
 //***until noted otherwise, the following code below is for Button functionality on main menu***
   
   //general function for all buttons so the "blur" doesnt show around border when clicked
@@ -41,11 +13,22 @@ window.onload = function() {
   //general function for initializing the difficulty buttons since they will be used multiple times
   let difficultyButtons = $('.diff-btn');
   let difficultyLevelIds = ['#easy', '#medium', '#hard', '#expert'];
+
+  //general function for initializing the player buttons since they will be used multiple times
   let playerIds = ['#one-player', '#two-player'];
   
-  //functions for toggling the player buttons when they are clicked and enabling/disabling difficulty buttons
-  // $('#my-input-id').prop('disabled', false);
+  //function for toggling the instructions when the instructions button is clicked
+  $('#instructions-btn').on('click', function(event) {
+    $(this).toggleClass('active');
+    if ($('#instructions-btn').hasClass('active')) {
+      document.getElementById("instructions-display").style.display = "block";
+    } else {
+      document.getElementById("instructions-display").style.display = "none";
+    }
+    // $('#instructions').toggleClass('instructions-display instructions-popup');
+  });
 
+  //functions for toggling the player buttons when they are clicked and enabling/disabling difficulty buttons
   //one-player button functionality
   $('#one-player').on('click', function(event) {
     $(this).toggleClass('active');
@@ -57,21 +40,16 @@ window.onload = function() {
     }
 
     if ($('#one-player').hasClass('active') && $(difficultyLevelIds[1]).hasClass('non-hover-btn')) {
-      // difficultyButtons.disabled = false;
       for(i=0;i<difficultyLevelIds.length;i++) {
-        // $(difficultyLevelIds[i]).toggleClass('active');
         $(difficultyLevelIds[i]).toggleClass('non-hover-btn btn');
         difficultyButtons[i].disabled = false;
       }
     } else if ($('#one-player').hasClass('active')) {
         for(i=0;i<difficultyLevelIds.length;i++){
-        // $(difficultyLevelIds[i]).toggleClass('active');
         difficultyButtons[i].disabled = false;
         }
       } else if ($(difficultyLevelIds[1]).hasClass('btn')) {
-        // difficultyButtons.disabled = true;
         for(i=0;i<difficultyLevelIds.length;i++){
-          // $(difficultyLevelIds[i]).toggleClass('active');
           $(difficultyLevelIds[i]).toggleClass('btn non-hover-btn');
           difficultyButtons[i].disabled = true;
           if ($(difficultyLevelIds[i]).hasClass('active')) {
@@ -79,9 +57,7 @@ window.onload = function() {
           }
         }
       } else {
-          // difficultyButtons.disabled = true;
           for(i=0;i<difficultyLevelIds.length;i++){
-            // $(difficultyLevelIds[i]).toggleClass('active');
             difficultyButtons[i].disabled = true;
             if ($(difficultyLevelIds[i]).hasClass('active')) {
             $(difficultyLevelIds[i]).toggleClass('active');
@@ -89,6 +65,7 @@ window.onload = function() {
           }
         }
   });
+
   //two-player button functionality
   $('#two-player').on('click', function(event) {
     $(this).toggleClass('active');
@@ -142,67 +119,118 @@ window.onload = function() {
         }
   });
 
-  // functions for toggling the difficulty buttons when they are clicked
+  // functions for toggling the difficulty buttons when they are clicked and the corresponding songs
   $('#easy').on('click', function(event) {
-    // console.log("wtf");
-    $(this).toggleClass("active");
+    $(this).toggleClass('active');
     if($('#easy').hasClass('active')) {
-      $('#red-hot').disabled = false;
-      $('#red-hot').toggleClass('active');
-      $('#red-hot').toggleClass('active');
+      $('#red-hot').prop('disabled', false);
+      $('#red-hot').toggleClass('non-hover-btn btn-song');
+      // $('#red-hot').addClass('active');
+      $('#nirvana').prop('disabled', false);
+      $('#nirvana').toggleClass('non-hover-btn btn-song');
+      // $('#nirvana').addClass('active');
     } else {
-      $('#red-hot').disabled = true;
+      $('#red-hot').prop('disabled', true);
+      $('#red-hot').toggleClass('btn-song non-hover-btn');
+      // $('#red-hot').removeClass('active');
+      $('#nirvana').prop('disabled', true);
+      $('#nirvana').toggleClass('btn-song non-hover-btn');
+      // $('#nirvana').removeClass('active');
     }
     if ($('#medium').hasClass('active')) {
-      $('#medium').toggleClass('active');
+      $('#medium').removeClass('active');
     }
     if ($('#hard').hasClass('active')) {
-      $('#hard').toggleClass('active');
+      $('#hard').removeClass('active');
     }
     if ($('#expert').hasClass('active')) {
-      $('#expert').toggleClass('active');
+      $('#expert').removeClass('active');
     }
   });
 
   $('#medium').on('click', function(event) {
-    // console.log("wtf");
     $(this).toggleClass('active');
+    if($('#medium').hasClass('active')) {
+      // $('#dre').addClass('active');
+      $('#dre').toggleClass('non-hover-btn btn-song');
+      // $('#dre').disabled = false;
+      $('#dre').prop('disabled', false);
+      $('#blink').prop('disabled', true);
+      $('#sweet-dreams').prop('disabled', true);
+      $('#red-hot').prop('disabled', true);
+      $('#nirvana').prop('disabled', true);
+    } else {
+      $('#dre').toggleClass('btn-song non-hover-btn');
+      $('#dre').prop('disabled', true);
+      $('#blink').prop('disabled', true);
+      $('#sweet-dreams').prop('disabled', true);
+      $('#red-hot').prop('disabled', true);
+      $('#nirvana').prop('disabled', true);
+    }
     if ($('#easy').hasClass('active')) {
-      $('#easy').toggleClass('active');
+      $('#easy').removeClass('active');
     }
     if ($('#hard').hasClass('active')) {
-      $('#hard').toggleClass('active');
+      $('#hard').removeClass('active');
     }
     if ($('#expert').hasClass('active')) {
-      $('#expert').toggleClass('active');
+      $('#expert').removeClass('active');
     }
   });
 
   $('#hard').on('click', function(event) {
-    // console.log("wtf");
-    $(this).toggleClass("active");
+    $(this).toggleClass('active');
+    if($('#hard').hasClass('active')) {
+      $('#blink').toggleClass('non-hover-btn btn-song');
+      $('#blink').prop('disabled', false);
+      $('#sweet-dreams').toggleClass('non-hover-btn btn-song');
+      $('#sweet-dreams').prop('disabled', false);
+
+      $('#dre').prop('disabled', true);
+      $('#red-hot').prop('disabled', true);
+      $('#nirvana').prop('disabled', true);
+    } else {
+      $('#blink').toggleClass('non-hover-btn btn-song');
+      $('#blink').prop('disabled', true);
+      $('#sweet-dreams').toggleClass('non-hover-btn btn-song');
+      $('#sweet-dreams').prop('disabled', true);
+
+      $('#dre').prop('disabled', true);
+      $('#red-hot').prop('disabled', true);
+      $('#nirvana').prop('disabled', true);
+    }
     if ($('#easy').hasClass('active')) {
-      $('#easy').toggleClass('active');
+      $('#easy').removeClass('active');
     }
     if ($('#medium').hasClass('active')) {
-      $('#medium').toggleClass('active');
+      $('#medium').removeClass('active');
     }
     if ($('#expert').hasClass('active')) {
-      $('#expert').toggleClass('active');
+      $('#expert').removeClass('active');
     }
   });
 
   $('#expert').on('click', function(event) {
-    // console.log("wtf");
     $(this).toggleClass('active');
+    if($('#expert').hasClass('active')) {
+      $('#blink').toggleClass('non-hover-btn btn-song');
+      $('#blink').prop('disabled', false);
+      $('#sweet-dreams').toggleClass('non-hover-btn btn-song');
+      $('#sweet-dreams').prop('disabled', false);
+    } else {
+      $('#blink').toggleClass('non-hover-btn btn-song');
+      $('#blink').prop('disabled', true);
+      $('#sweet-dreams').toggleClass('non-hover-btn btn-song');
+      $('#sweet-dreams').prop('disabled', true);
+    }
     if ($('#easy').hasClass('active')) {
-      $('#easy').toggleClass('active');
+      $('#easy').removeClass('active');
     }
     if ($('#medium').hasClass('active')) {
-      $('#medium').toggleClass('active');
+      $('#medium').removeClass('active');
     }
     if ($('#hard').hasClass('active')) {
-      $('#hard').toggleClass('active');
+      $('#hard').removeClass('active');
     }
   });
 
@@ -214,7 +242,15 @@ window.onload = function() {
     if ($('#nirvana').hasClass('active')) {
       $('source').attr('src', './Music/HeartShapedBox.mp3');
       userSong.load();
+      $('#start').toggleClass('non-hover-btn start-btn');
+      $('#start').addClass('active');
+      $('#start').prop('disabled', false);
+    } else {
+      $('$start').toggleClass('start-btn non-hover-btn');
+      $('#start').removeClass('active');
+      $('#start').prop('disabled', true);
     }
+
     if ($('#red-hot').hasClass('active')) {
       $('#red-hot').toggleClass('active');
     }
@@ -234,7 +270,15 @@ window.onload = function() {
     if ($('#red-hot').hasClass('active')) {
       $('source').attr('src', './Music/Hey_Red_Hot.m4a');
       userSong.load();
+      $('#start').toggleClass('non-hover-btn start-btn');
+      $('#start').addClass('active');
+      $('#start').prop('disabled', false);
+    } else {
+      $('$start').toggleClass('start-btn non-hover-btn');
+      $('#start').removeClass('active');
+      $('#start').prop('disabled', true);
     }
+
     if ($('#nirvana').hasClass('active')) {
       $('#nirvana').toggleClass('active');
     }
@@ -254,7 +298,15 @@ window.onload = function() {
     if ($('#dre').hasClass('active')) {
       $('source').attr('src', './Music/Still_Dre.mp3');
       userSong.load();
+      $('#start').toggleClass('non-hover-btn start-btn');
+      $('#start').addClass('active');
+      $('#start').prop('disabled', false);
+    } else {
+      $('$start-btn').toggleClass('start-btn non-hover-btn');
+      $('#start-btn').removeClass('active');
+      $('#start-btn').prop('disabled', true);
     }
+
     if ($('#nirvana').hasClass('active')) {
       $('#nirvana').toggleClass('active');
     }
@@ -274,7 +326,15 @@ window.onload = function() {
     if ($('#blink').hasClass('active')) {
       $('source').attr('src', './Music/Whats_My_Age_Again_.mp3');
       userSong.load();
+      $('#start-btn').toggleClass('non-hover-btn start-btn');
+      $('#start').addClass('active');
+      $('#start').prop('disabled', false);
+    } else {
+      $('$start').toggleClass('start-btn non-hover-btn');
+      $('#start').removeClass('active');
+      $('#start').prop('disabled', true);
     }
+
     if ($('#nirvana').hasClass('active')) {
       $('#nirvana').toggleClass('active');
     }
@@ -294,7 +354,15 @@ window.onload = function() {
     if ($('#sweet-dreams').hasClass('active')) {
       $('source').attr('src', './Music/Sweet_Dreams_Remix.mp3');
       userSong.load();
+      $('#start-btn').toggleClass('non-hover-btn start-btn');
+      $('#start').addClass('active');
+      $('#start').prop('disabled', false);
+    } else {
+      $('$start').toggleClass('start-btn non-hover-btn');
+      $('#start').removeClass('active');
+      $('#start').prop('disabled', true);
     }
+
     if ($('#nirvana').hasClass('active')) {
       $('#nirvana').toggleClass('active');
     }
@@ -309,8 +377,7 @@ window.onload = function() {
     }
   });
 
-  // if ()
-//**end code for button functionality**
+//*******end code for button functionality********
 
 //***until noted otherwise, the following code below is for game functionality***
   document.getElementById('start').onclick = function() {
@@ -394,7 +461,7 @@ window.onload = function() {
     ctx.fillText("Stamina: " + user1stats.stamina, 0, 35);
     ctx.font = "30px Helevetica";
     ctx.fillStyle = "black";
-    ctx.fillText("Counter: " + user1stats.counter, 0, 70);
+    ctx.fillText("Streak: " + user1stats.counter, 0, 70);
 
     // ctx.strokeStyle = "black";
     // ctx.strokeRect(95, 610, 85, 85);
@@ -421,6 +488,7 @@ window.onload = function() {
   arrowImageDown.src = "images/down_arrow.png";
   let arrowImageUp = new Image();
   arrowImageUp.src = "images/up_arrow.png";
+  
   //*end of general code*
 
   //until noted otherwise, the following code below is for the
@@ -439,7 +507,7 @@ window.onload = function() {
   let gameArrows = [];
 
   function updateCanvas() {
-    ctx.clearRect(0,0, 800, 700);
+    ctx.clearRect(0,0, 800, 800);
     startGame();
     board.frames++;
     let allArrows = [arrowImageLeft, arrowImageDown, arrowImageUp, arrowImageRight];
@@ -472,7 +540,6 @@ window.onload = function() {
       }
     
     for (i=0; i<gameArrows.length; i++) {
-      console.log(gameArrows);
       gameArrows[i].drawArrow();
       gameArrows[i].y += 5;
       if (gameArrows[i].y > 703 && user1stats.stamina<=100) {
@@ -481,7 +548,7 @@ window.onload = function() {
         user1stats.staminaBar.height-=20;
         gameArrows.splice(i, 1);
         user1stats.counter=0;
-      } else if(gameArrows[i].y > 700) {
+      } else if(gameArrows[i].y > 703) {
         user1stats.stamina-=5;
         gameArrows.splice(i, 1);
         user1stats.counter=0;
@@ -527,13 +594,15 @@ window.onload = function() {
     arrowLeft: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if(gameArrows[i].y > 601 && gameArrows[i].y+gameArrows[i].height < 704 && gameArrows[i].x === 100) {
+        if(gameArrows[i].y > 595 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 100) {
           gameArrows.splice(i, 1);
           user1stats.counter++;
           correctKey = 1;
+          ctx.strokeStyle = "green";
+          ctx.strokeRect(95, 610, 85, 85);
         }
       } 
-      if(correctKey === 0 && user1stats.stamina <=100) {
+      if(correctKey === 0 && user1stats.stamina <=100 ) {
         user1stats.stamina -= 5;
         user1stats.counter = 0;
         user1stats.staminaBar.y+=20;
@@ -556,13 +625,15 @@ window.onload = function() {
     arrowRight: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 601 && gameArrows[i].y+gameArrows[i].height < 704 && gameArrows[i].x === 355) {
+        if (gameArrows[i].y > 595 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 355) {
         gameArrows.splice(i, 1);
         user1stats.counter++;
         correctKey = 1;
+        ctx.strokeStyle = "green";
+        ctx.strokeRect(350, 610, 85, 85);
         }
       }
-      if(correctKey === 0 && user1stats.stamina <=100) {
+      if(correctKey === 0 && user1stats.stamina <=100 && gameArrows[i].y < 703) {
         user1stats.stamina-=5;
         user1stats.counter=0;
         user1stats.staminaBar.y+=20;
@@ -585,10 +656,12 @@ window.onload = function() {
     arrowDown: function() {
       let correctKey = 0; 
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 601 && gameArrows[i].y+gameArrows[i].height < 704 && gameArrows[i].x === 185) {
+        if (gameArrows[i].y > 595 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 185) {
           gameArrows.splice(i, 1);
           user1stats.counter++;
           correctKey = 1;
+          ctx.strokeStyle = "green";
+          ctx.strokeRect(180, 610, 85, 85);
         }
       }
       if(correctKey === 0 && user1stats.stamina <=100) {
@@ -614,10 +687,12 @@ window.onload = function() {
     arrowUp: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 601 && gameArrows[i].y+gameArrows[i].height < 704 && gameArrows[i].x === 270) {
+        if (gameArrows[i].y > 595 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 270) {
           gameArrows.splice(i, 1);
           user1stats.counter++;
           correctKey = 1;
+          ctx.strokeRect(265, 610, 85, 85);
+          ctx.strokeStyle = "green";
         }
       }
       if(correctKey === 0 && user1stats.stamina <=100) {
