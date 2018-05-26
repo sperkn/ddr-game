@@ -1,8 +1,6 @@
 window.onload = function() {
   //*until noted otherwise, the following code below is for general use.*
 
-  let theCanvas = document.getElementById('game-canvas');
-  let ctx = theCanvas.getContext('2d');
 
 //***until noted otherwise, the following code below is for Button functionality on main menu***
   
@@ -21,7 +19,7 @@ window.onload = function() {
   $('#instructions-btn').on('click', function(event) {
     $(this).toggleClass('active');
     if ($('#instructions-btn').hasClass('active')) {
-      document.getElementById("instructions-display").style.display = "block";
+      document.getElementById("instructions-display").style.display = "flex";
     } else {
       document.getElementById("instructions-display").style.display = "none";
     }
@@ -381,49 +379,168 @@ window.onload = function() {
 
 //***until noted otherwise, the following code below is for game functionality***
   document.getElementById('start').onclick = function() {
-    removeStartScreen();
+    
+    hideStartScreen();
+    showCanvas();
     setGameBackground();
     startGame();
-    // let userSong = document.querySelector('audio');
-    // userSong.load();
     userSong.play();
-
-    interval();
+    // interval();
+    if ($('#easy').hasClass('active')) {
+      intervalEasy();
+    } else if ($('#medium').hasClass('active')) {
+      intervalMedium();
+    }else if ($('#hard').hasClass('active')) {
+      intervalHard();
+    } else {
+      intervalExpert();
+    }
+    
     // checkOutcome();
   };
 
-  //every 40ms interval() function initiates updateCanvas(), which is the "engine"
+  // **** setInterval(checkOutcome, 40); VERIFY WHAT TO DO WITH THIS. DELETE IF NOT NEEDED. ***
+
+  //every xx amount of time, interval() function initiates updateCanvas(), which is the "engine"
   //that creates the arrows and pushes them onto the screen.
-  function interval (){
-    setInterval(updateCanvas, 25);
-    setInterval(checkOutcome, 800);
-    }
-  function removeStartScreen() {
+
+  // function interval () {
+  //   setInterval(updateCanvas, 25);
+    // setInterval(checkOutcome, 800);
+  // }
+
+  function intervalEasy () {
+    setInterval(updateCanvas, 20);
+    // setInterval(checkOutcome, 800);
+  }
+
+  function intervalMedium () {
+    setInterval(updateCanvas, 13);
+      // setInterval(checkOutcome, 800);
+  }
+
+  function intervalHard () {
+    setInterval(updateCanvas, 15);
+      // setInterval(checkOutcome, 800);
+  }
+
+  function intervalExpert () {
+    setInterval(updateCanvas, 15);
+      // setInterval(checkOutcome, 800);
+  }
+
+  function hideStartScreen() {
     // remove the "canvas-display" class from the canvas tag in order to allow canvas to be shown
     let initialScreen = document.getElementById("game-intro");
-    initialScreen.innerHTML = "";
-    let gameboard = document.getElementById("canvas-display");
-    gameboard.setAttribute("id", "");
+    initialScreen.style.display = "none";
+    
     // gamboard.style.display = "block";
   }
 
-  function setGameBackground() {
+  function showCanvas() {
+    let canvas = document.getElementById("canvas-display");
+    canvas.style.display = "flex";
     
-    // set the background color scheme
-    let background = document.getElementById("home-background");
-    background.setAttribute("id", "background1");
+    if ($('#two-player').hasClass('active')) {
+      let gameBoard = document.getElementById("game-canvas");
+      gameBoard.style.display = "block";
+      // gameboard.setAttribute("id", "");
+      let gameBoard2= document.getElementById("game-canvas2");
+      gameBoard2.style.display = "block";
+      // gameboard2.setAttribute("id", "");
+    } else {
+      let gameBoard = document.getElementById("game-canvas");
+      gameBoard.style.display = "block";
+      // gameboard.setAttribute("id", "");
+      }
+  }
+
+  function setGameBackground() {
+    // set the background scheme
+    if ($('#two-player').hasClass('active')){
+      let background = document.getElementById("home-background");
+      background.setAttribute("id", "background2");
+    } else {
+      let background = document.getElementById("home-background");
+      background.setAttribute("id", "background1");
+      }
   }
 
   function startGame() {
-    createGameBoard1();
+    if ($('#two-player').hasClass('active')) {
+      createGameBoard1();
+      createGameBoard2();
+    } else {
+      createGameBoard1();
+      }
+  }
+
+  let canvasOne = document.getElementById('game-canvas');
+  let ctxOne = canvasOne.getContext('2d');
+
+  let canvasTwo = document.getElementById('game-canvas2');
+  let ctxTwo = canvasTwo.getContext('2d');
+
+  //scoreboard for player1
+  function createGameBoard1() {
+    ctxOne.lineWidth=3;
+    ctxOne.strokeStyle = "black";
+    ctxOne.strokeRect(10, 58, 35, 402);
+    ctxOne.fillStyle = user1stats.staminaColor;
+    ctxOne.fillRect(user1stats.staminaBar.x, user1stats.staminaBar.y, user1stats.staminaBar.width, user1stats.staminaBar.height);
+    ctxOne.font = "30px Georgia";
+    ctxOne.fillStyle = "red";
+    ctxOne.fillText("Stamina: " + user1stats.stamina, 0, 725);
+    ctxOne.font = "30px Georgia";
+    ctxOne.fillStyle = "green";
+    ctxOne.fillText("Streak: " + user1stats.counter, 0, 760);
+
+    ctxOne.strokeStyle = "black";
+    ctxOne.strokeRect(95, 610, 335, 85);
+    // ctxOne.strokeRect(95, 610, 85, 85);
+    ctxOne.drawImage(arrowImageLeft, 100, 615, 75, 75);
+    // ctxOne.strokeRect(180, 610, 85, 85);
+    ctxOne.drawImage(arrowImageDown, 185, 615, 75, 75);
+    // ctxOne.strokeRect(265, 610, 85, 85);
+    ctxOne.drawImage(arrowImageUp, 270, 615, 75, 75);
+    // ctxOne.strokeRect(350, 610, 85, 85);
+    ctxOne.drawImage(arrowImageRight, 355, 615, 75, 75);
+  }
+
+//scoreboard for player2
+  function createGameBoard2() {
     
-    // setInterval(checkOutcome, 40);
+    ctxTwo.lineWidth=3;
+    ctxTwo.strokeStyle = "black";
+    ctxTwo.strokeRect(10, 58, 35, 402);
+    ctxTwo.fillStyle = user2stats.staminaColor;
+    ctxTwo.fillRect(user2stats.staminaBar.x, user2stats.staminaBar.y, user2stats.staminaBar.width, user2stats.staminaBar.height);
+    ctxTwo.font = "30px Georgia";
+    ctxTwo.fillStyle = "red";
+    ctxTwo.fillText("Stamina: " + user2stats.stamina, 0, 725);
+    ctxTwo.font = "30px Georgia";
+    ctxTwo.fillStyle = "black";
+    ctxTwo.fillText("Streak: " + user2stats.counter, 0, 760);
+
+    ctxTwo.strokeStyle = "black";
+    ctxTwo.strokeRect(95, 610, 430, 85);
+    // ctxTwo.strokeRect(95, 610, 85, 85);
+    ctxTwo.drawImage(arrowImageLeft, 100, 615, 75, 75);
+    // ctxTwo.strokeRect(180, 610, 85, 85);
+    ctxTwo.drawImage(arrowImageDown, 185, 615, 75, 75);
+    // ctxTwo.strokeRect(265, 610, 85, 85);
+    ctxTwo.drawImage(arrowImageUp, 270, 615, 75, 75);
+    // ctxTwo.strokeRect(350, 610, 85, 85);
+    ctxTwo.drawImage(arrowImageRight, 355, 615, 75, 75);
   }
 
   let board = {
     frames: 0,
+    arrowFrequency: 0,
+    arrowSpeed:0,
   };
 
+//player1 data
   let user1stats = {
     stamina: 100,
     staminaColor: '#43e97b',
@@ -433,6 +550,22 @@ window.onload = function() {
     streak: 0,
   };
 
+  function stamina1Deduct() {
+    user1stats.stamina=-1;
+  }
+  function staminaBar1Deduct () {
+    user1stats.staminaBar.y=+4;
+    user1stats.staminaBar.height=-4;
+  }
+  function stamina1Add() {
+    user1stats.stamina=-1;
+  }
+  function staminaBar1Add() {
+    user1stats.staminaBar.y=-4;
+    user1stats.staminaBar.height=+4;
+  }
+
+//player2 data
   let user2stats = {
     stamina: 100,
     staminaColor: '#43e97b',
@@ -441,44 +574,41 @@ window.onload = function() {
     misses: 0,
     streak: 0,
   };
-
-  function createGameBoard1() {
-    //initiate the canvas
-    // let theCanvas = document.getElementById("game-canvas");
-    // let ctx = theCanvas.getContext("2d");
-    //dance floor characteristics
-    // ctx.strokeStyle = "black";
-    // ctx.fillRect(0, 700, 800, 50);
-    
-    // scoreboard
-    ctx.strokeStyle = "black";
-    ctx.strokeRect(10, 58, 35, 402);
-    ctx.fillStyle = user1stats.staminaColor;
-    // ctx.fillRect(11, 51, 33, 398);
-    ctx.fillRect(user1stats.staminaBar.x, user1stats.staminaBar.y, user1stats.staminaBar.width, user1stats.staminaBar.height);
-    ctx.font = "30px Helevetica";
-    ctx.fillStyle = "red";
-    ctx.fillText("Stamina: " + user1stats.stamina, 0, 35);
-    ctx.font = "30px Helevetica";
-    ctx.fillStyle = "black";
-    ctx.fillText("Streak: " + user1stats.counter, 0, 70);
-
-    // ctx.strokeStyle = "black";
-    // ctx.strokeRect(95, 610, 85, 85);
-    ctx.drawImage(arrowImageLeft, 100, 615, 75, 75);
-    // ctx.strokeRect(180, 610, 85, 85);
-    ctx.drawImage(arrowImageDown, 185, 615, 75, 75);
-    // ctx.strokeRect(265, 610, 85, 85);
-    ctx.drawImage(arrowImageUp, 270, 615, 75, 75);
-    // ctx.strokeRect(350, 610, 85, 85);
-    ctx.drawImage(arrowImageRight, 355, 615, 75, 75);
+  //stamina decrease 1pt in stamina for wrong key & increase 1pt for 5 correct keys in a row
+  function stamina2Deduct() {
+    user2stats.stamina=-1;
+  }
+  function staminaBar2Deduct() {
+    user2stats.staminaBar.y=+4;
+    user2stats.staminaBar.height=-4;
+  }
+  function stamina2Add() {
+    user2stats.stamina=-1;
+  }
+  function staminaBar2Add() {
+    user2stats.staminaBar.y=-4;
+    user2stats.staminaBar.height=+4;
   }
 
   function checkOutcome() {
-    if (user1stats.stamina <= 0) {
-       alert("You lose!");
+    if (user2stats.stamina <= 0) {
+       alert("PLAYER TWO LOSES! PLAYER 1 IS BETTER.");
+       document.location.reload();
+    } else if (user1stats.stamina <= 0 && user2stats.stamina > 0 ) {
+      alert("PLAYER ONE LOSES! PLAYER 2 IS BETTER.");
+       document.location.reload();
     }
   }
+
+  userSong.onended = function() {
+    if (user2stats.stamina > user1stats.stamina) {
+      alert("PLAYER TWO WINS!");
+      document.location.reload();
+    } else {
+      alert("PLAYER ONE WINS!");
+      document.location.reload();
+      }
+};
 
   let arrowImageLeft = new Image();
   arrowImageLeft.src = "images/left_arrow.png";
@@ -500,38 +630,54 @@ window.onload = function() {
     this.height = height;
     this.arrowGenerated = arrowGenerated;
     this.drawArrow = function () {
-      ctx.drawImage(this.arrowGenerated, this.x, this.y, this.width, this.height);
+      ctxOne.drawImage(this.arrowGenerated, this.x, this.y, this.width, this.height);
     };
   }
 
   let gameArrows = [];
+  let gameArrows2 = [];
+
+  if ($('#easy').hasClass('active')) {
+    board.arrowFrequency=35;
+    board.arrowSpeed=5;
+    } else if ($('#medium').hasClass('active')) {
+      board.arrowFrequency=18;
+      board.arrowSpeed=3;
+    }else if ($('#hard').hasClass('active')) {
+      board.arrowFrequency=25;
+      board.arrowSpeed=3;
+    } else {
+      board.arrowFrequency=25;
+      board.arrowSpeed=3;
+    }
 
   function updateCanvas() {
-    ctx.clearRect(0,0, 800, 800);
+    ctxOne.clearRect(0,0, 475, 800);
+    // console.log("board.speed");
     startGame();
     board.frames++;
     let allArrows = [arrowImageLeft, arrowImageDown, arrowImageUp, arrowImageRight];
     let randomArrow = allArrows[Math.floor(Math.random()*allArrows.length)];
 
-    if (board.frames % 35 === 1 && randomArrow === arrowImageLeft) {
+    if (board.frames % board.arrowFrequency == 1 && randomArrow == arrowImageLeft) {
       let arrowX = 100;
       let arrowY = 0;
       let arrowWidth = 75;
       let arrowHeight = 75;
       gameArrows.push(new Arrowfalling(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
-    } else if (board.frames % 35 === 1 && randomArrow === arrowImageDown) {
+    } else if (board.frames % board.arrowFrequency == 1 && randomArrow == arrowImageDown) {
         let arrowX = 185;
         let arrowY = 0;
         let arrowWidth = 75;
         let arrowHeight = 75;
         gameArrows.push(new Arrowfalling(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
-      } else if (board.frames % 35 === 1 && randomArrow === arrowImageUp){
+      } else if (board.frames % board.arrowFrequency == 1 && randomArrow == arrowImageUp){
         let arrowX = 270;
         let arrowY = 0;
         let arrowWidth = 75;
         let arrowHeight = 75;
         gameArrows.push(new Arrowfalling(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
-      } else if (board.frames % 35 === 1 && randomArrow === arrowImageRight) {
+      } else if (board.frames % board.arrowFrequency == 1 && randomArrow == arrowImageRight) {
         let arrowX = 355;
         let arrowY = 0;
         let arrowWidth = 75;
@@ -541,8 +687,8 @@ window.onload = function() {
     
     for (i=0; i<gameArrows.length; i++) {
       gameArrows[i].drawArrow();
-      gameArrows[i].y += 5;
-      if (gameArrows[i].y > 703 && user1stats.stamina<=100) {
+      gameArrows[i].y += board.arrowSpeed;
+      if (gameArrows[i].y > 710 && user1stats.stamina<=100) {
         user1stats.stamina-=5;
         user1stats.staminaBar.y+=20;
         user1stats.staminaBar.height-=20;
@@ -574,32 +720,47 @@ window.onload = function() {
   document.onkeydown = function(e) {
     // console.log(e);
     switch (e.keyCode) {
+      // ascii keys for arrow keys
      case 37: 
-      verifyArrow.arrowLeft();
+      verifyArrow1.arrowLeft();
       break;
      case 38: 
-      verifyArrow.arrowUp();
+      verifyArrow1.arrowUp();
       break;
      case 39: 
-      verifyArrow.arrowRight();
+      verifyArrow1.arrowRight();
       break;
      case 40: 
-      verifyArrow.arrowDown();
+      verifyArrow1.arrowDown();
       break;
+    // ascii keys for 'w','a','s',d'
+    //  case 65: 
+    //   verifyArrow2.arrowLeft();
+    //   break;
+    //  case 87: 
+    //   verifyArrow2.arrowUp();
+    //   break;
+    //  case 68: 
+    //   verifyArrow2.arrowRight();
+    //   break;
+    //  case 83: 
+    //   verifyArrow2.arrowDown();
+    //   break;
     }
   };
 
   //object with the functions that are doing the verifying after the arrow key is clicked.
-  let verifyArrow = {
+  let verifyArrow1 = {
     arrowLeft: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if(gameArrows[i].y > 595 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 100) {
+        if(gameArrows[i].y > 578 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 100) {
           gameArrows.splice(i, 1);
           user1stats.counter++;
           correctKey = 1;
-          ctx.strokeStyle = "green";
-          ctx.strokeRect(95, 610, 85, 85);
+          ctxOne.fillStyle = "linear-gradient(to top, #43e97b 0%, #38f9d7 100%)";
+          // ctxOne.strokeRect(95, 610, 85, 85);
+          ctxOne.fillRect(95, 610, 85, 85);
         }
       } 
       if(correctKey === 0 && user1stats.stamina <=100 ) {
@@ -625,15 +786,15 @@ window.onload = function() {
     arrowRight: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 595 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 355) {
+        if (gameArrows[i].y > 578 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 355) {
         gameArrows.splice(i, 1);
         user1stats.counter++;
         correctKey = 1;
-        ctx.strokeStyle = "green";
-        ctx.strokeRect(350, 610, 85, 85);
+        ctxOne.fillStyle = "linear-gradient(to top, #43e97b 0%, #38f9d7 100%)";
+        ctxOne.fillRect(350, 610, 85, 85);
         }
       }
-      if(correctKey === 0 && user1stats.stamina <=100 && gameArrows[i].y < 703) {
+      if(correctKey === 0 && user1stats.stamina <=100) {
         user1stats.stamina-=5;
         user1stats.counter=0;
         user1stats.staminaBar.y+=20;
@@ -656,12 +817,13 @@ window.onload = function() {
     arrowDown: function() {
       let correctKey = 0; 
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 595 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 185) {
+        if (gameArrows[i].y > 578 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 185) {
           gameArrows.splice(i, 1);
           user1stats.counter++;
           correctKey = 1;
-          ctx.strokeStyle = "green";
-          ctx.strokeRect(180, 610, 85, 85);
+          ctxOne.fillStyle = "linear-gradient(to top, #43e97b 0%, #38f9d7 100%)";
+          // ctxOne.strokeStyle = "green";
+          ctxOne.fillRect(180, 610, 85, 85);
         }
       }
       if(correctKey === 0 && user1stats.stamina <=100) {
@@ -687,12 +849,13 @@ window.onload = function() {
     arrowUp: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 595 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 270) {
+        if (gameArrows[i].y > 578 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 270) {
           gameArrows.splice(i, 1);
           user1stats.counter++;
           correctKey = 1;
-          ctx.strokeRect(265, 610, 85, 85);
-          ctx.strokeStyle = "green";
+          ctxOne.fillStyle = "linear-gradient(to top, #43e97b 0%, #38f9d7 100%)";
+          ctxOne.fillRect(265, 610, 85, 85);
+          // ctxOne.strokeStyle = "green";
         }
       }
       if(correctKey === 0 && user1stats.stamina <=100) {
@@ -717,14 +880,14 @@ window.onload = function() {
     },
   };
 };
-  // ctx.strokeStyle = "black";
-  //     ctx.strokeRect(95, 610, 85, 85);
-  //     ctx.drawImage(arrowImageLeft, 100, 615, 75, 75);
-  //     ctx.strokeRect(180, 610, 85, 85);
-  //     ctx.drawImage(arrowImageDown, 185, 615, 75, 75);
-  //     ctx.strokeRect(265, 610, 85, 85);
-  //     ctx.drawImage(arrowImageUp, 270, 615, 75, 75);
-  //     ctx.strokeRect(350, 610, 85, 85);
-  //     ctx.drawImage(arrowImageRight, 355, 615, 75, 75);
+  // ctxOne.strokeStyle = "black";
+  //     ctxOne.strokeRect(95, 610, 85, 85);
+  //     ctxOne.drawImage(arrowImageLeft, 100, 615, 75, 75);
+  //     ctxOne.strokeRect(180, 610, 85, 85);
+  //     ctxOne.drawImage(arrowImageDown, 185, 615, 75, 75);
+  //     ctxOne.strokeRect(265, 610, 85, 85);
+  //     ctxOne.drawImage(arrowImageUp, 270, 615, 75, 75);
+  //     ctxOne.strokeRect(350, 610, 85, 85);
+  //     ctxOne.drawImage(arrowImageRight, 355, 615, 75, 75);
 
 

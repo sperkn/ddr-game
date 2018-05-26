@@ -46,15 +46,14 @@
   </div>
 
   <div id="instructions-display" class="sub-container">
-    <div> 
-      <h3>Instructions</h3>
-      <p>Press the corresponding arrow key
-        <!-- (<img src="./images/arrowkeys.png" alt="arrow-keys" class="arrows-img" width="100" height="50">) -->
-        as soon as the falling game arrow crosses the matching arrow on the "dance floor". Time it just right and your dancing stamina
-        remains the same, but mistime it and your dancing stamina decreases. Too many missteps and you'll have to hang up
-        your dancing fingers. </p>
+    <div class="sub-container">
+    <!-- <div>  -->
+      <h2>Instructions</h2>
+      <p>Press the corresponding arrow key as soon as the falling arrows cross the arrow on the "dance floor". 
+        Time it just right and your dancing stamina remains the same, but mistime it and your dancing stamina decreases. Too 
+        many missteps and you'll have to hang up your dancing fingers. </p>
       <p>Get through the song with the highest stamina and be crowned the dancing guru!</p>
-      <h4>Tips:</h4>
+      <h3>Tips:</h3>
       <ol>
         <li>The dancing floor boxes flash red(miss) or green(success) depending on if the arrow key is pressed at the correct
           time.
@@ -63,20 +62,29 @@
         </li>
       </ol>
     </div>
+    <!-- </div> -->
   </div>
 
-  <div id="canvas-display">
-    <div class="sub-container">
-      <canvas id="game-canvas" width="800" height="800"></canvas>
+  <div id="canvas-display" class="sub-container">
+    <div>
+      <canvas id="game-canvas2" width="480" height="800"></canvas>
+    </div>
+    <div>
+      <canvas id="game-canvas" width="480" height="800"></canvas>
+    </div>
       <audio>
         <source src="" type="audio/mpeg">
         <!-- <source src="horse.mp3" type="audio/mpeg"> -->
         Your browser does not support the audio tag.
       </audio>
-    </div>
-  </div>
+      <!-- <audio>
+        <source src="" type="audio/mpeg">
+        <!-- <source src="horse.mp3" type="audio/mpeg"> -->
+        <!-- Your browser does not support the audio tag. -->
+      <!-- </audio> -->
+</div>
   <div id="overlay"></div>
-  <div class="game-result-display">
+  <div id="game-result-display">
     You Win!
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
