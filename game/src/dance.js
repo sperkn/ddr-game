@@ -1,6 +1,6 @@
 window.onload = function() {
   //*until noted otherwise, the following code below is for general use.*
-
+  
 
 //***until noted otherwise, the following code below is for Button functionality on main menu***
   
@@ -383,12 +383,14 @@ window.onload = function() {
     hideStartScreen();
     showCanvas();
     setGameBackground();
-    startGame();
     if ($('#two-player').hasClass('active')){
+      startGame();
       startGame2();
+    } else {
+      startGame();
     }
     userSong.play();
-    // interval();
+
     if ($('#easy').hasClass('active')) {
       intervalEasy();
     } else if ($('#medium').hasClass('active')) {
@@ -398,19 +400,8 @@ window.onload = function() {
     } else {
       intervalExpert();
     }
-    
-    // checkOutcome();
   };
-
-  // **** setInterval(checkOutcome, 40); VERIFY WHAT TO DO WITH THIS. DELETE IF NOT NEEDED. ***
-
-  //every xx amount of time, interval() function initiates updateCanvas(), which is the "engine"
-  //that creates the arrows and pushes them onto the screen.
-
-  // function interval () {
-  //   setInterval(updateCanvas, 25);
-    // setInterval(checkOutcome, 800);
-  // }
+  var gameOver=$('#game-over');
 
   function intervalEasy () {
     if ($('#two-player').hasClass('active')) {
@@ -419,7 +410,7 @@ window.onload = function() {
     } else {
       setInterval(updateCanvas, 20);
     }
-    // setInterval(checkOutcome, 800);
+    setInterval(checkOutcome, 800);
   }
 
   function intervalMedium () {
@@ -429,7 +420,7 @@ window.onload = function() {
     } else {
         setInterval(updateCanvas, 13);
       }
-      // setInterval(checkOutcome, 800);
+      setInterval(checkOutcome, 800);
   }
 
   function intervalHard () {
@@ -439,7 +430,7 @@ window.onload = function() {
     } else {
         setInterval(updateCanvas, 15);
       }
-    // setInterval(checkOutcome, 800);
+    setInterval(checkOutcome, 800);
   }
 
   function intervalExpert () {
@@ -449,7 +440,7 @@ window.onload = function() {
     } else {
         setInterval(updateCanvas, 15);
       }
-    // setInterval(checkOutcome, 800);
+    setInterval(checkOutcome, 800);
   }
 
   function hideStartScreen() {
@@ -463,21 +454,20 @@ window.onload = function() {
     canvas.style.display = "flex";
     
     if ($('#two-player').hasClass('active')) {
+      $('#canvas-display').toggleClass('sub-container canvas-container');
       let gameBoard = document.getElementById("game-canvas");
       gameBoard.style.display = "block";
-      // gameboard.setAttribute("id", "");
       let gameBoard2= document.getElementById("game-canvas2");
       gameBoard2.style.display = "block";
-      // gameboard2.setAttribute("id", "");
     } else {
       let gameBoard = document.getElementById("game-canvas");
       gameBoard.style.display = "block";
-      // gameboard.setAttribute("id", "");
+      // $('#game-canvas').addClass("sub-container");
       }
   }
 
+  // set the background scheme
   function setGameBackground() {
-    // set the background scheme
     if ($('#two-player').hasClass('active')){
       let background = document.getElementById("home-background");
       background.setAttribute("id", "background2");
@@ -493,6 +483,60 @@ window.onload = function() {
   function startGame2() {
     createGameBoard2();
 }
+
+//check if/which user(s) won and/or lost
+function checkOutcome() {
+  if (user2stats.stamina <= 0) {
+    userSong.pause();
+    clearInterval();
+    gameOver.style.display='block';
+    $('#message').empty();
+    $('#message').append("<p>Player 1 Wins! Better luck next time Player 2.</p>");
+    $('#results').append("<li>Player 1's longest streak was: \'user1stats.streak\'</li> <li>Player 2's longest streak was: \'user2stats.streak\'</li>");
+    $('#re-start').on("click", function (){location.reload();});
+    //  document.location.reload();
+  } else if (user1stats.stamina <= 0 && user2stats.stamina > 0) {
+    userSong.pause();
+    clearInterval();
+    gameOver.style.display='block';
+    $('#message').empty();
+    $('#message').append("<p>Player 2 Wins! Better luck next time Player 1.</p>");
+    $('#results').append("<li>Player One's longest streak was: \'user1stats.streak\'</li> <li>Player Two's longest streak was: \'user2stats.streak\'</li>");
+    $('#re-start').on("click", function (){location.reload();});
+    // alert("PLAYER ONE LOSES! PLAYER 2 IS BETTER.");
+    // document.location.reload();
+  } else if (user1stats.stamina <= 0) {
+    userSong.pause();
+    clearInterval();
+    gameOver.style.display='block';
+    $('#results').append("<li>Your longest streak was: \'user1stats.streak\'!</li>");
+    $('#re-start').on("click", function (){location.reload();});
+    // document.location.reload();
+  }
+}
+
+userSong.onended = function() {
+  if (user2stats.stamina > user1stats.stamina) {
+    userSong.pause();
+    gameOver.style.display='block';
+    $('#message').empty();
+    $('#message').append("<p>Player 2 Wins! Better luck next time Player 1.</p>");
+    $('#results').append("<li>Player One's longest streak was: \'user1stats.streak\'</li> <li>Player Two's longest streak was: \'user2stats.streak\'</li>");
+    $('#re-start').on("click", function (){location.reload();});
+    // alert("PLAYER TWO WINS!");
+    // document.location.reload();
+  } else {
+    userSong.pause();
+    clearInterval();
+    gameOver.style.display='block';
+    $('#message').empty();
+    $('#message').append("<p>Player 1 Wins! Better luck next time Player 2.</p>");
+    $('#results').append("<li>Player 1's longest streak was: \'user1stats.streak\'</li> <li>Player 2's longest streak was: \'user2stats.streak\'</li>");
+    $('#re-start').on("click", function (){location.reload();});
+    // alert("PLAYER ONE WINS!");
+    // document.location.reload();
+    }
+};
 
   //initializing both canvases
   let canvasOne = document.getElementById('game-canvas');
@@ -550,7 +594,7 @@ window.onload = function() {
 
     ctxTwo.lineWidth=2;
     ctxTwo.strokeStyle = "black";
-    ctxTwo.strokeRect(95, 610, 430, 85);
+    ctxTwo.strokeRect(95, 610, 335, 85);
     ctxTwo.drawImage(arrowImageLeft, 100, 615, 75, 75);
     ctxTwo.drawImage(arrowImageDown, 185, 615, 75, 75);
     ctxTwo.drawImage(arrowImageUp, 270, 615, 75, 75);
@@ -576,7 +620,7 @@ window.onload = function() {
     staminaBar: {x:11, y:60, width:33, height:400,},
     counter: 0,
     misses: 0,
-    // streak: 0,
+    streak: 0,
   };
 
   function stamina1Deduct() {
@@ -601,7 +645,7 @@ window.onload = function() {
     staminaBar: {x:11, y:60, width:33, height:400,},
     counter: 0,
     misses: 0,
-    // streak: 0,
+    streak: 0,
   };
   //stamina decrease 1pt in stamina for wrong key & increase 1pt for 5 correct keys in a row
   function stamina2Deduct() {
@@ -618,29 +662,7 @@ window.onload = function() {
     user2stats.staminaBar.y-=4;
     user2stats.staminaBar.height+=4;
   }
-//check if/which user(s) won and/or lost
-  function checkOutcome() {
-    if (user2stats.stamina == 0) {
-       alert("PLAYER TWO LOSES! PLAYER 1 IS BETTER.");
-       document.location.reload();
-    } else if (user1stats.stamina == 0 && user2stats.stamina > 0 ) {
-      alert("PLAYER ONE LOSES! PLAYER 2 IS BETTER.");
-      document.location.reload();
-    } else if (user1stats.stamina == 0) {
-      alert("YOU LOSE!");
-      document.location.reload();
-    }
-  }
-
-  userSong.onended = function() {
-    if (user2stats.stamina > user1stats.stamina) {
-      alert("PLAYER TWO WINS!");
-      document.location.reload();
-    } else {
-      alert("PLAYER ONE WINS!");
-      document.location.reload();
-      }
-};
+ 
   
 //*****end of general code****
 
@@ -674,15 +696,21 @@ window.onload = function() {
       board2.arrowFrequency=18;
       board2.arrowSpeed=3;
     }else if ($('#hard').hasClass('active')) {
-      board.arrowFrequency=25;
+      board.arrowFrequency=22;
       board.arrowSpeed=3;
-      board2.arrowFrequency=25;
+      board2.arrowFrequency=22;
       board2.arrowSpeed=3;
     } else {
-      board.arrowFrequency=25;
+      board.arrowFrequency=22;
       board.arrowSpeed=3;
-      board2.arrowFrequency=25;
+      board2.arrowFrequency=22;
       board2.arrowSpeed=3;
+    }
+    if (user2stats.counter>user2stats.streak){
+        user2stats.streak = user2stats.counter;
+      }
+    if (user1stats.counter>user1stats.streak){
+      user1stats.streak = user1stats.counter;
     }
 
   function updateCanvas() {
@@ -758,7 +786,7 @@ window.onload = function() {
         var arrowY2 = 0;
         var arrowWidth2 = 75;
         var arrowHeight2= 75;
-        gameArrows2.push(new Arrowfalling(arrowX2, arrowY2, arrowWidth2, arrowHeight2, randomArrow2));
+        gameArrows2.push(new Arrowfalling(arrowX2, arrowY2, arrowWidth2, arrowHeight2, randomArrow));
       } else if (board2.frames % board2.arrowFrequency == 1 && randomArrow == arrowImageUp){
         var arrowX3 = 270;
         var arrowY3 = 0;
@@ -793,6 +821,9 @@ window.onload = function() {
     } else if (user2stats.stamina <= 20) {
       user2stats.staminaColor = "#ff0844";
     }
+    // if (user2stats.counter>user2stats.streak){
+    //   user2stats.streak = user2stats.counter;
+    // }
 }
 
 //*end of falling arrows code*
@@ -1004,7 +1035,7 @@ window.onload = function() {
         user1stats.counter = 0;
         ctxTwo.fillStyle = "red";
         ctxTwo.fillRect(350, 610, 85, 85);
-      } else if(correctKey == 0) {
+      } else if(correctKey2 == 0) {
         stamina2Deduct();
         user2stats.counter = 0;
         ctxTwo.fillStyle = "red";
@@ -1027,7 +1058,7 @@ window.onload = function() {
           ctxTwo.fillRect(180, 610, 85, 85);
         }
       }
-      if(correctKey==0 && user1stats.stamina<=100) {
+      if(correctKey2==0 && user1stats.stamina<=100) {
         stamina2Deduct();
         staminaBar2Deduct();
         user2stats.counter = 0;
