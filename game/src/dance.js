@@ -238,7 +238,7 @@ window.onload = function() {
   $('#nirvana').on('click', function(event) {
     $(this).toggleClass("active");
     if ($('#nirvana').hasClass('active')) {
-      $('source').attr('src', './Music/HeartShapedBox.mp3');
+      $('source').attr('src', '../Music/HeartShapedBox.mp3');
       userSong.load();
       $('#start').toggleClass('non-hover-btn start-btn');
       $('#start').addClass('active');
@@ -266,7 +266,7 @@ window.onload = function() {
   $('#red-hot').on('click', function(event) {
     $(this).toggleClass("active");
     if ($('#red-hot').hasClass('active')) {
-      $('source').attr('src', './Music/Hey_Red_Hot.m4a');
+      $('source').attr('src', '../Music/Hey_Red_Hot.m4a');
       userSong.load();
       $('#start').toggleClass('non-hover-btn start-btn');
       $('#start').addClass('active');
@@ -294,7 +294,7 @@ window.onload = function() {
   $('#dre').on('click', function(event) {
     $(this).toggleClass("active");
     if ($('#dre').hasClass('active')) {
-      $('source').attr('src', './Music/Still_Dre.mp3');
+      $('source').attr('src', '../Music/Still_Dre.mp3');
       userSong.load();
       $('#start').toggleClass('non-hover-btn start-btn');
       $('#start').addClass('active');
@@ -322,7 +322,7 @@ window.onload = function() {
   $('#blink').on('click', function(event) {
     $(this).toggleClass('active');
     if ($('#blink').hasClass('active')) {
-      $('source').attr('src', './Music/Whats_My_Age_Again_.mp3');
+      $('source').attr('src', '../Music/Whats_My_Age_Again_.mp3');
       userSong.load();
       $('#start-btn').toggleClass('non-hover-btn start-btn');
       $('#start').addClass('active');
@@ -350,7 +350,7 @@ window.onload = function() {
   $('#sweet-dreams').on('click', function(event) {
     $(this).toggleClass('active');
     if ($('#sweet-dreams').hasClass('active')) {
-      $('source').attr('src', './Music/Sweet_Dreams_Remix.mp3');
+      $('source').attr('src', '../Music/Sweet_Dreams_Remix.mp3');
       userSong.load();
       $('#start-btn').toggleClass('non-hover-btn start-btn');
       $('#start').addClass('active');
@@ -547,13 +547,13 @@ userSong.onended = function() {
 
   //arrow images to be used for the static arrows at bottom of canvas and for the falling arrows
   let arrowImageLeft = new Image();
-  arrowImageLeft.src = "images/left_arrow.png";
+  arrowImageLeft.src = "../images/left_arrow.png";
   let arrowImageRight = new Image();
-  arrowImageRight.src = "images/right_arrow.png";
+  arrowImageRight.src = "../images/right_arrow.png";
   let arrowImageDown = new Image();
-  arrowImageDown.src = "images/down_arrow.png";
+  arrowImageDown.src = "../images/down_arrow.png";
   let arrowImageUp = new Image();
-  arrowImageUp.src = "images/up_arrow.png";
+  arrowImageUp.src = "../images/up_arrow.png";
 
   //scoreboard for player1
   function createGameBoard1() {
