@@ -245,7 +245,11 @@ p {
   flex-flow: row wrap;
   justify-content: center;
 }
-
+.canvas-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
 #game-intro {
   display: block;
 }
@@ -324,7 +328,7 @@ p {
 #background2 {
   background-image: url('../images/discogif.gif');
   background-size: contain;
-  background-repeat: repeat-x;
+  /* background-repeat: repeat-x; */
   /* opacity: 0.6; */
 }
 

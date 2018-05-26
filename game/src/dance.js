@@ -384,6 +384,9 @@ window.onload = function() {
     showCanvas();
     setGameBackground();
     startGame();
+    if ($('#two-player').hasClass('active')){
+      startGame2();
+    }
     userSong.play();
     // interval();
     if ($('#easy').hasClass('active')) {
@@ -410,31 +413,49 @@ window.onload = function() {
   // }
 
   function intervalEasy () {
-    setInterval(updateCanvas, 20);
+    if ($('#two-player').hasClass('active')) {
+      setInterval(updateCanvas, 20);
+      setInterval(updateCanvas2, 20);
+    } else {
+      setInterval(updateCanvas, 20);
+    }
     // setInterval(checkOutcome, 800);
   }
 
   function intervalMedium () {
-    setInterval(updateCanvas, 13);
+    if ($('#two-player').hasClass('active')) {
+      setInterval(updateCanvas, 13);
+      setInterval(updateCanvas2, 13);
+    } else {
+        setInterval(updateCanvas, 13);
+      }
       // setInterval(checkOutcome, 800);
   }
 
   function intervalHard () {
-    setInterval(updateCanvas, 15);
-      // setInterval(checkOutcome, 800);
+    if ($('#two-player').hasClass('active')) {
+      setInterval(updateCanvas, 15);
+      setInterval(updateCanvas2, 15);
+    } else {
+        setInterval(updateCanvas, 15);
+      }
+    // setInterval(checkOutcome, 800);
   }
 
   function intervalExpert () {
-    setInterval(updateCanvas, 15);
-      // setInterval(checkOutcome, 800);
+    if ($('#two-player').hasClass('active')) {
+      setInterval(updateCanvas, 15);
+      setInterval(updateCanvas2, 15);
+    } else {
+        setInterval(updateCanvas, 15);
+      }
+    // setInterval(checkOutcome, 800);
   }
 
   function hideStartScreen() {
     // remove the "canvas-display" class from the canvas tag in order to allow canvas to be shown
     let initialScreen = document.getElementById("game-intro");
     initialScreen.style.display = "none";
-    
-    // gamboard.style.display = "block";
   }
 
   function showCanvas() {
@@ -467,25 +488,34 @@ window.onload = function() {
   }
 
   function startGame() {
-    if ($('#two-player').hasClass('active')) {
-      createGameBoard1();
-      createGameBoard2();
-    } else {
-      createGameBoard1();
-      }
+    createGameBoard1();
   }
+  function startGame2() {
+    createGameBoard2();
+}
 
+  //initializing both canvases
   let canvasOne = document.getElementById('game-canvas');
   let ctxOne = canvasOne.getContext('2d');
 
   let canvasTwo = document.getElementById('game-canvas2');
   let ctxTwo = canvasTwo.getContext('2d');
 
+  //arrow images to be used for the static arrows at bottom of canvas and for the falling arrows
+  let arrowImageLeft = new Image();
+  arrowImageLeft.src = "images/left_arrow.png";
+  let arrowImageRight = new Image();
+  arrowImageRight.src = "images/right_arrow.png";
+  let arrowImageDown = new Image();
+  arrowImageDown.src = "images/down_arrow.png";
+  let arrowImageUp = new Image();
+  arrowImageUp.src = "images/up_arrow.png";
+
   //scoreboard for player1
   function createGameBoard1() {
     ctxOne.lineWidth=3;
     ctxOne.strokeStyle = "black";
-    ctxOne.strokeRect(10, 58, 35, 402);
+    ctxOne.strokeRect(10, 58, 35, 403);
     ctxOne.fillStyle = user1stats.staminaColor;
     ctxOne.fillRect(user1stats.staminaBar.x, user1stats.staminaBar.y, user1stats.staminaBar.width, user1stats.staminaBar.height);
     ctxOne.font = "30px Georgia";
@@ -495,49 +525,48 @@ window.onload = function() {
     ctxOne.fillStyle = "green";
     ctxOne.fillText("Streak: " + user1stats.counter, 0, 760);
 
+    ctxOne.lineWidth=2;
     ctxOne.strokeStyle = "black";
     ctxOne.strokeRect(95, 610, 335, 85);
-    // ctxOne.strokeRect(95, 610, 85, 85);
     ctxOne.drawImage(arrowImageLeft, 100, 615, 75, 75);
-    // ctxOne.strokeRect(180, 610, 85, 85);
     ctxOne.drawImage(arrowImageDown, 185, 615, 75, 75);
-    // ctxOne.strokeRect(265, 610, 85, 85);
     ctxOne.drawImage(arrowImageUp, 270, 615, 75, 75);
-    // ctxOne.strokeRect(350, 610, 85, 85);
     ctxOne.drawImage(arrowImageRight, 355, 615, 75, 75);
   }
 
 //scoreboard for player2
   function createGameBoard2() {
-    
     ctxTwo.lineWidth=3;
     ctxTwo.strokeStyle = "black";
-    ctxTwo.strokeRect(10, 58, 35, 402);
+    ctxTwo.strokeRect(10, 58, 35, 403);
     ctxTwo.fillStyle = user2stats.staminaColor;
     ctxTwo.fillRect(user2stats.staminaBar.x, user2stats.staminaBar.y, user2stats.staminaBar.width, user2stats.staminaBar.height);
     ctxTwo.font = "30px Georgia";
     ctxTwo.fillStyle = "red";
     ctxTwo.fillText("Stamina: " + user2stats.stamina, 0, 725);
     ctxTwo.font = "30px Georgia";
-    ctxTwo.fillStyle = "black";
+    ctxTwo.fillStyle = "green";
     ctxTwo.fillText("Streak: " + user2stats.counter, 0, 760);
 
+    ctxTwo.lineWidth=2;
     ctxTwo.strokeStyle = "black";
     ctxTwo.strokeRect(95, 610, 430, 85);
-    // ctxTwo.strokeRect(95, 610, 85, 85);
     ctxTwo.drawImage(arrowImageLeft, 100, 615, 75, 75);
-    // ctxTwo.strokeRect(180, 610, 85, 85);
     ctxTwo.drawImage(arrowImageDown, 185, 615, 75, 75);
-    // ctxTwo.strokeRect(265, 610, 85, 85);
     ctxTwo.drawImage(arrowImageUp, 270, 615, 75, 75);
-    // ctxTwo.strokeRect(350, 610, 85, 85);
     ctxTwo.drawImage(arrowImageRight, 355, 615, 75, 75);
   }
 
   let board = {
     frames: 0,
     arrowFrequency: 0,
-    arrowSpeed:0,
+    arrowSpeed: 0,
+  };
+
+  var board2 = {
+    frames: 0,
+    arrowFrequency: 0,
+    arrowSpeed: 0,
   };
 
 //player1 data
@@ -547,22 +576,22 @@ window.onload = function() {
     staminaBar: {x:11, y:60, width:33, height:400,},
     counter: 0,
     misses: 0,
-    streak: 0,
+    // streak: 0,
   };
 
   function stamina1Deduct() {
-    user1stats.stamina=-1;
+    user1stats.stamina-=1;
   }
   function staminaBar1Deduct () {
-    user1stats.staminaBar.y=+4;
-    user1stats.staminaBar.height=-4;
+    user1stats.staminaBar.y+=4;
+    user1stats.staminaBar.height-=4;
   }
   function stamina1Add() {
-    user1stats.stamina=-1;
+    user1stats.stamina+=1;
   }
   function staminaBar1Add() {
-    user1stats.staminaBar.y=-4;
-    user1stats.staminaBar.height=+4;
+    user1stats.staminaBar.y-=4;
+    user1stats.staminaBar.height+=4;
   }
 
 //player2 data
@@ -572,31 +601,34 @@ window.onload = function() {
     staminaBar: {x:11, y:60, width:33, height:400,},
     counter: 0,
     misses: 0,
-    streak: 0,
+    // streak: 0,
   };
   //stamina decrease 1pt in stamina for wrong key & increase 1pt for 5 correct keys in a row
   function stamina2Deduct() {
-    user2stats.stamina=-1;
+    user2stats.stamina-=1;
   }
   function staminaBar2Deduct() {
-    user2stats.staminaBar.y=+4;
-    user2stats.staminaBar.height=-4;
+    user2stats.staminaBar.y+=4;
+    user2stats.staminaBar.height-=4;
   }
   function stamina2Add() {
-    user2stats.stamina=-1;
+    user2stats.stamina+=1;
   }
   function staminaBar2Add() {
-    user2stats.staminaBar.y=-4;
-    user2stats.staminaBar.height=+4;
+    user2stats.staminaBar.y-=4;
+    user2stats.staminaBar.height+=4;
   }
-
+//check if/which user(s) won and/or lost
   function checkOutcome() {
-    if (user2stats.stamina <= 0) {
+    if (user2stats.stamina == 0) {
        alert("PLAYER TWO LOSES! PLAYER 1 IS BETTER.");
        document.location.reload();
-    } else if (user1stats.stamina <= 0 && user2stats.stamina > 0 ) {
+    } else if (user1stats.stamina == 0 && user2stats.stamina > 0 ) {
       alert("PLAYER ONE LOSES! PLAYER 2 IS BETTER.");
-       document.location.reload();
+      document.location.reload();
+    } else if (user1stats.stamina == 0) {
+      alert("YOU LOSE!");
+      document.location.reload();
     }
   }
 
@@ -609,17 +641,8 @@ window.onload = function() {
       document.location.reload();
       }
 };
-
-  let arrowImageLeft = new Image();
-  arrowImageLeft.src = "images/left_arrow.png";
-  let arrowImageRight = new Image();
-  arrowImageRight.src = "images/right_arrow.png";
-  let arrowImageDown = new Image();
-  arrowImageDown.src = "images/down_arrow.png";
-  let arrowImageUp = new Image();
-  arrowImageUp.src = "images/up_arrow.png";
   
-  //*end of general code*
+//*****end of general code****
 
   //until noted otherwise, the following code below is for the
   //arrows that will fall down the canvas.
@@ -632,6 +655,9 @@ window.onload = function() {
     this.drawArrow = function () {
       ctxOne.drawImage(this.arrowGenerated, this.x, this.y, this.width, this.height);
     };
+    this.drawArrow2 = function () {
+      ctxTwo.drawImage(this.arrowGenerated, this.x, this.y, this.width, this.height);
+    };
   }
 
   let gameArrows = [];
@@ -640,20 +666,27 @@ window.onload = function() {
   if ($('#easy').hasClass('active')) {
     board.arrowFrequency=35;
     board.arrowSpeed=5;
+    board2.arrowFrequency=35;
+    board2.arrowSpeed=5;
     } else if ($('#medium').hasClass('active')) {
       board.arrowFrequency=18;
       board.arrowSpeed=3;
+      board2.arrowFrequency=18;
+      board2.arrowSpeed=3;
     }else if ($('#hard').hasClass('active')) {
       board.arrowFrequency=25;
       board.arrowSpeed=3;
+      board2.arrowFrequency=25;
+      board2.arrowSpeed=3;
     } else {
       board.arrowFrequency=25;
       board.arrowSpeed=3;
+      board2.arrowFrequency=25;
+      board2.arrowSpeed=3;
     }
 
   function updateCanvas() {
     ctxOne.clearRect(0,0, 475, 800);
-    // console.log("board.speed");
     startGame();
     board.frames++;
     let allArrows = [arrowImageLeft, arrowImageDown, arrowImageUp, arrowImageRight];
@@ -688,14 +721,13 @@ window.onload = function() {
     for (i=0; i<gameArrows.length; i++) {
       gameArrows[i].drawArrow();
       gameArrows[i].y += board.arrowSpeed;
-      if (gameArrows[i].y > 710 && user1stats.stamina<=100) {
-        user1stats.stamina-=5;
-        user1stats.staminaBar.y+=20;
-        user1stats.staminaBar.height-=20;
+      if (gameArrows[i].y > 703 && user1stats.stamina<=100) {
+        stamina1Deduct();
+        staminaBar1Deduct();
         gameArrows.splice(i, 1);
         user1stats.counter=0;
       } else if(gameArrows[i].y > 703) {
-        user1stats.stamina-=5;
+        stamina1Deduct();
         gameArrows.splice(i, 1);
         user1stats.counter=0;
       } 
@@ -706,10 +738,63 @@ window.onload = function() {
     } else if (user1stats.stamina <= 20) {
       user1stats.staminaColor = "#ff0844";
     }
-    // if (board.counter%10===0 && board.counter!=0) {
-    //   board.stamina+=10;
-    // }
   }
+
+  function updateCanvas2() {
+    ctxTwo.clearRect(0,0, 475, 800);
+    startGame2();
+    board2.frames++;
+    var allArrows = [arrowImageLeft, arrowImageDown, arrowImageUp, arrowImageRight];
+    var randomArrow = allArrows[Math.floor(Math.random()*allArrows.length)];
+
+    if (board2.frames % board2.arrowFrequency == 1 && randomArrow == arrowImageLeft) {
+      var arrowX = 100;
+      var arrowY = 0;
+      var arrowWidth = 75;
+      var arrowHeight = 75;
+      gameArrows2.push(new Arrowfalling(arrowX, arrowY, arrowWidth, arrowHeight, randomArrow));
+    } else if (board2.frames % board2.arrowFrequency == 1 && randomArrow == arrowImageDown) {
+        var arrowX2 = 185;
+        var arrowY2 = 0;
+        var arrowWidth2 = 75;
+        var arrowHeight2= 75;
+        gameArrows2.push(new Arrowfalling(arrowX2, arrowY2, arrowWidth2, arrowHeight2, randomArrow2));
+      } else if (board2.frames % board2.arrowFrequency == 1 && randomArrow == arrowImageUp){
+        var arrowX3 = 270;
+        var arrowY3 = 0;
+        var arrowWidth3 = 75;
+        var arrowHeight3 = 75;
+        gameArrows2.push(new Arrowfalling(arrowX3, arrowY3, arrowWidth3, arrowHeight3, randomArrow));
+      } else if (board2.frames % board2.arrowFrequency == 1 && randomArrow == arrowImageRight) {
+        var arrowX4 = 355;
+        var arrowY4 = 0;
+        var arrowWidth4 = 75;
+        var arrowHeight4 = 75;
+        gameArrows2.push(new Arrowfalling(arrowX4, arrowY4, arrowWidth4, arrowHeight4, randomArrow));
+      }
+    
+    for (i=0; i<gameArrows2.length; i++) {
+      gameArrows2[i].drawArrow2();
+      gameArrows2[i].y += board2.arrowSpeed;
+      if (gameArrows2[i].y > 703 && user2stats.stamina<=100) {
+        stamina2Deduct();
+        staminaBar2Deduct();
+        gameArrows2.splice(i, 1);
+        user1stats.counter=0;
+      } else if(gameArrows2[i].y > 703) {
+        stamina2Deduct();
+        gameArrows2.splice(i, 1);
+        user2stats.counter=0;
+      } 
+    }
+
+    if (user2stats.stamina <= 60 && user2stats.stamina > 20){
+      user2stats.staminaColor="#fee140";
+    } else if (user2stats.stamina <= 20) {
+      user2stats.staminaColor = "#ff0844";
+    }
+}
+
 //*end of falling arrows code*
 
   //until noted otherwise, the following code below is for the
@@ -734,18 +819,18 @@ window.onload = function() {
       verifyArrow1.arrowDown();
       break;
     // ascii keys for 'w','a','s',d'
-    //  case 65: 
-    //   verifyArrow2.arrowLeft();
-    //   break;
-    //  case 87: 
-    //   verifyArrow2.arrowUp();
-    //   break;
-    //  case 68: 
-    //   verifyArrow2.arrowRight();
-    //   break;
-    //  case 83: 
-    //   verifyArrow2.arrowDown();
-    //   break;
+     case 65: 
+      verifyArrow2.arrowLeft();
+      break;
+     case 87: 
+      verifyArrow2.arrowUp();
+      break;
+     case 68: 
+      verifyArrow2.arrowRight();
+      break;
+     case 83: 
+      verifyArrow2.arrowDown();
+      break;
     }
   };
 
@@ -754,39 +839,37 @@ window.onload = function() {
     arrowLeft: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if(gameArrows[i].y > 578 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 100) {
+        if(gameArrows[i].y > 580 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x == 100) {
           gameArrows.splice(i, 1);
           user1stats.counter++;
           correctKey = 1;
           ctxOne.fillStyle = "linear-gradient(to top, #43e97b 0%, #38f9d7 100%)";
-          // ctxOne.strokeRect(95, 610, 85, 85);
           ctxOne.fillRect(95, 610, 85, 85);
         }
       } 
-      if(correctKey === 0 && user1stats.stamina <=100 ) {
-        user1stats.stamina -= 5;
+      if(correctKey == 0 && user1stats.stamina <=100) {
+        stamina1Deduct();
+        staminaBar1Deduct();
         user1stats.counter = 0;
-        user1stats.staminaBar.y+=20;
-        user1stats.staminaBar.height-=20;
-      } else if(correctKey === 0) {
-        user1stats.stamina-=5;
+        ctxOne.fillStyle = "red";
+        // "linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)";
+        ctxOne.fillRect(95, 610, 85, 85);
+      } else if(correctKey == 0) {
+        stamina1Deduct();
         user1stats.counter = 0;
-      } else if (user1stats.counter%5===0 && user1stats.stamina>90 && user1stats.stamina<100) {
-        user1stats.stamina+=5;
-        user1stats.staminaBar.y-= (user1stats.staminaBar.y-60);
-        user1stats.staminaBar.height+= (user1stats.staminaBar.height+60);
-      } else if (user1stats.counter%5===0 && user1stats.stamina<=90) {
-        user1stats.stamina+=5;
-        user1stats.staminaBar.y-=20;
-        user1stats.staminaBar.height+=20;
-      } else if (user1stats.counter%5===0) {
-        user1stats.stamina+=5;
-      }
+        ctxOne.fillStyle = "red";
+        ctxOne.fillRect(95, 610, 85, 85);
+        } else if (user1stats.counter%5==0 && user1stats.stamina>=100) {
+        stamina1Add();
+        } else if (user1stats.counter%5==0 && user1stats.stamina<100) {
+        stamina1Add();
+        staminaBar1Add();
+        }
     },
     arrowRight: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 578 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 355) {
+        if (gameArrows[i].y > 580 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 355) {
         gameArrows.splice(i, 1);
         user1stats.counter++;
         correctKey = 1;
@@ -794,30 +877,28 @@ window.onload = function() {
         ctxOne.fillRect(350, 610, 85, 85);
         }
       }
-      if(correctKey === 0 && user1stats.stamina <=100) {
-        user1stats.stamina-=5;
-        user1stats.counter=0;
-        user1stats.staminaBar.y+=20;
-        user1stats.staminaBar.height-=20;
-      } else if(correctKey === 0) {
-        user1stats.stamina -= 5;
+      if(correctKey == 0 && user1stats.stamina <=100) {
+        stamina1Deduct();
+        staminaBar1Deduct();
         user1stats.counter = 0;
-      } else if (user1stats.counter%5===0 && user1stats.stamina>90 && user1stats.stamina<100) {
-        user1stats.stamina+=5;
-        user1stats.staminaBar.y-= (user1stats.staminaBar.y-60);
-        user1stats.staminaBar.height+= (user1stats.staminaBar.height+60);
-      } else if (user1stats.counter%5===0 && user1stats.stamina<=90) {
-        user1stats.stamina+=5;
-        user1stats.staminaBar.y-=20;
-        user1stats.staminaBar.height+=20;
-      } else if (user1stats.counter%5===0) {
-        user1stats.stamina+=5;
-      }
+        ctxOne.fillStyle = "red";
+        ctxOne.fillRect(350, 610, 85, 85);
+      } else if(correctKey == 0) {
+        stamina1Deduct();
+        user1stats.counter = 0;
+        ctxOne.fillStyle = "red";
+        ctxOne.fillRect(350, 610, 85, 85);
+        } else if (user1stats.counter%5==0 && user1stats.stamina>=100) {
+        stamina1Add();
+        } else if (user1stats.counter%5==0 && user1stats.stamina<100) {
+        stamina1Add();
+        staminaBar1Add();
+        }
     },
     arrowDown: function() {
       let correctKey = 0; 
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 578 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 185) {
+        if (gameArrows[i].y > 580 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 185) {
           gameArrows.splice(i, 1);
           user1stats.counter++;
           correctKey = 1;
@@ -826,68 +907,174 @@ window.onload = function() {
           ctxOne.fillRect(180, 610, 85, 85);
         }
       }
-      if(correctKey === 0 && user1stats.stamina <=100) {
-        user1stats.stamina-=5;
+      if(correctKey == 0 && user1stats.stamina <=100) {
+        stamina1Deduct();
+        staminaBar1Deduct();
         user1stats.counter = 0;
-        user1stats.staminaBar.y+=20;
-        user1stats.staminaBar.height-=20;
-      } else if(correctKey === 0) {
-        user1stats.stamina-=5;
+        ctxOne.fillStyle = "red";
+        ctxOne.fillRect(180, 610, 85, 85);
+      } else if(correctKey == 0) {
+        stamina1Deduct();
         user1stats.counter = 0;
-      } else if (user1stats.counter%5===0 && user1stats.stamina>90 && user1stats.stamina<100) {
-        user1stats.stamina+=5;
-        user1stats.staminaBar.y-= (user1stats.staminaBar.y-60);
-        user1stats.staminaBar.height+= (user1stats.staminaBar.height+60);
-      } else if (user1stats.counter%5===0 && user1stats.stamina<=90) {
-        user1stats.stamina+=5;
-        user1stats.staminaBar.y-=20;
-        user1stats.staminaBar.height+=20;
-      } else if (user1stats.counter%5===0) {
-        user1stats.stamina+=5;
-      }
+        ctxOne.fillStyle = "red";
+        ctxOne.fillRect(180, 610, 85, 85);
+        } else if (user1stats.counter%5==0 && user1stats.stamina>=100) {
+        stamina1Add();
+        } else if (user1stats.counter%5==0 && user1stats.stamina<100) {
+        stamina1Add();
+        staminaBar1Add();
+        }
     },
     arrowUp: function() {
       let correctKey = 0;
       for (i=0; i<gameArrows.length; i++) {
-        if (gameArrows[i].y > 578 && gameArrows[i].y+gameArrows[i].height < 706 && gameArrows[i].x === 270) {
+        if (gameArrows[i].y>580 && gameArrows[i].y+gameArrows[i].height<706 && gameArrows[i].x==270) {
           gameArrows.splice(i, 1);
           user1stats.counter++;
-          correctKey = 1;
+          correctKey=1;
           ctxOne.fillStyle = "linear-gradient(to top, #43e97b 0%, #38f9d7 100%)";
           ctxOne.fillRect(265, 610, 85, 85);
           // ctxOne.strokeStyle = "green";
         }
       }
-      if(correctKey === 0 && user1stats.stamina <=100) {
-        user1stats.stamina-=5;
+      if(correctKey==0 && user1stats.stamina<=100) {
+        stamina1Deduct();
+        staminaBar1Deduct();
         user1stats.counter=0;
-        user1stats.staminaBar.y+=20;
-        user1stats.staminaBar.height-=20;
-      } else if(correctKey === 0) {
-        user1stats.stamina-=5;
-        user1stats.counter = 0;
-      } else if (user1stats.counter%5===0 && user1stats.stamina>90 && user1stats.stamina<100) {
-        user1stats.stamina+=5;
-        user1stats.staminaBar.y-= (user1stats.staminaBar.y-60);
-        user1stats.staminaBar.height+= (user1stats.staminaBar.height+60);
-      } else if (user1stats.counter%5===0 && user1stats.stamina<=90) {
-        user1stats.stamina+=5;
-        user1stats.staminaBar.y-=20;
-        user1stats.staminaBar.height+=20;
-      } else if (user1stats.counter%5===0) {
-        user1stats.stamina+=5;
+        ctxOne.fillStyle="red";
+        ctxOne.fillRect(265, 610, 85, 85);
+      } else if(correctKey==0) {
+        stamina1Deduct();
+        user1stats.counter=0;
+        ctxOne.fillStyle="red";
+        ctxOne.fillRect(265, 610, 85, 85);
+        } else if (user1stats.counter%5==0 && user1stats.stamina>=100) {
+        stamina1Add();
+        } else if (user1stats.counter%5==0 && user1stats.stamina<100) {
+        stamina1Add();
+        staminaBar1Add();
+        }
+    },
+  };
+
+  let verifyArrow2 = {
+    arrowLeft: function() {
+      let correctKey2 = 0;
+      for (i=0; i<gameArrows2.length; i++) {
+        if(gameArrows2[i].y>580 && gameArrows2[i].y+gameArrows2[i].height<706 && gameArrows2[i].x==100) {
+          gameArrows2.splice(i, 1);
+          user2stats.counter++;
+          correctKey2=1;
+          ctxTwo.fillStyle="linear-gradient(to top, #43e97b 0%, #38f9d7 100%)";
+          ctxTwo.fillRect(95, 610, 85, 85);
+        }
+      } 
+      if(correctKey2==0 && user2stats.stamina<=100) {
+        stamina2Deduct();
+        staminaBar2Deduct();
+        user2stats.counter=0;
+        ctxTwo.fillStyle="red";
+        ctxTwo.fillRect(95, 610, 85, 85);
+      } else if(correctKey2==0) {
+        stamina2Deduct();
+        user2stats.counter=0;
+        ctxTwo.fillStyle="red";
+        ctxTwo.fillRect(95, 610, 85, 85);
+        } else if (user2stats.counter%5==0 && user2stats.stamina>=100) {
+        stamina2Add();
+        } else if (user2stats.counter%5==0 && user2stats.stamina<100) {
+        stamina2Add();
+        staminaBar2Add();
+        }
+    },
+    arrowRight: function() {
+      var correctKey2 = 0;
+      for (i=0; i<gameArrows2.length; i++) {
+        if (gameArrows2[i].y > 580 && gameArrows2[i].y+gameArrows2[i].height < 706 && gameArrows2[i].x === 355) {
+        gameArrows2.splice(i, 1);
+        user2stats.counter++;
+        correctKey2 = 1;
+        ctxTwo.fillStyle = "linear-gradient(to top, #43e97b 0%, #38f9d7 100%)";
+        ctxTwo.fillRect(350, 610, 85, 85);
+        }
       }
+      if(correctKey2 == 0 && user2stats.stamina <=100) {
+        stamina2Deduct();
+        staminaBar2Deduct();
+        user1stats.counter = 0;
+        ctxTwo.fillStyle = "red";
+        ctxTwo.fillRect(350, 610, 85, 85);
+      } else if(correctKey == 0) {
+        stamina2Deduct();
+        user2stats.counter = 0;
+        ctxTwo.fillStyle = "red";
+        ctxTwo.fillRect(350, 610, 85, 85);
+        } else if (user2stats.counter%5==0 && user2stats.stamina>=100) {
+        stamina2Add();
+        } else if (user2stats.counter%5==0 && user2stats.stamina<100) {
+        stamina2Add();
+        staminaBar2Add();
+        }
+    },
+    arrowDown: function() {
+      var correctKey2 = 0; 
+      for (i=0; i<gameArrows2.length; i++) {
+        if (gameArrows2[i].y > 580 && gameArrows2[i].y+gameArrows2[i].height < 706 && gameArrows2[i].x == 185) {
+          gameArrows2.splice(i, 1);
+          user2stats.counter++;
+          correctKey2 = 1;
+          ctxTwo.fillStyle = "linear-gradient(to top, #43e97b 0%, #38f9d7 100%)";
+          ctxTwo.fillRect(180, 610, 85, 85);
+        }
+      }
+      if(correctKey==0 && user1stats.stamina<=100) {
+        stamina2Deduct();
+        staminaBar2Deduct();
+        user2stats.counter = 0;
+        ctxTwo.fillStyle = "red";
+        ctxTwo.fillRect(180, 610, 85, 85);
+      } else if(correctKey2 == 0) {
+        stamina2Deduct();
+        user2stats.counter = 0;
+        ctxTwo.fillStyle = "red";
+        ctxTwo.fillRect(180, 610, 85, 85);
+        } else if (user2stats.counter%5==0 && user2stats.stamina>=100) {
+        stamina2Add();
+        } else if (user2stats.counter%5==0 && user2stats.stamina<100) {
+        stamina2Add();
+        staminaBar2Add();
+        }
+    },
+    arrowUp: function() {
+      var correctKey2 = 0;
+      for (i=0; i<gameArrows2.length; i++) {
+        if (gameArrows2[i].y > 580 && gameArrows2[i].y+gameArrows2[i].height < 706 && gameArrows2[i].x === 270) {
+          gameArrows2.splice(i, 1);
+          user2stats.counter++;
+          correctKey2 = 1;
+          ctxTwo.fillStyle = "linear-gradient(to top, #43e97b 0%, #38f9d7 100%)";
+          ctxTwo.fillRect(265, 610, 85, 85);
+        }
+      }
+      if(correctKey2== 0 && user2stats.stamina <=100) {
+        stamina2Deduct();
+        staminaBar2Deduct();
+        user2stats.counter = 0;
+        ctxTwo.fillStyle = "linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)";
+        ctxTwo.fillRect(265, 610, 85, 85);
+      } else if(correctKey2 == 0) {
+        stamina2Deduct();
+        user2stats.counter = 0;
+        ctxTwo.fillStyle = "linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)";
+        ctxTwo.fillRect(265, 610, 85, 85);
+        } else if (user2stats.counter%5==0 && user2stats.stamina>=100) {
+        stamina2Add();
+        } else if (user2stats.counter%5==0 && user2stats.stamina<100) {
+        stamina2Add();
+        staminaBar2Add();
+        }
     },
   };
 };
-  // ctxOne.strokeStyle = "black";
-  //     ctxOne.strokeRect(95, 610, 85, 85);
-  //     ctxOne.drawImage(arrowImageLeft, 100, 615, 75, 75);
-  //     ctxOne.strokeRect(180, 610, 85, 85);
-  //     ctxOne.drawImage(arrowImageDown, 185, 615, 75, 75);
-  //     ctxOne.strokeRect(265, 610, 85, 85);
-  //     ctxOne.drawImage(arrowImageUp, 270, 615, 75, 75);
-  //     ctxOne.strokeRect(350, 610, 85, 85);
-  //     ctxOne.drawImage(arrowImageRight, 355, 615, 75, 75);
 
 
