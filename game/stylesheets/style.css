@@ -334,28 +334,17 @@ p {
 
 
 #home-background {
-  /* background-color: #0E79B2; */
   background-color:#2ec1eb;
-  /* background-color:#fff;  */
-  /* background-image: url('../images/colorbars.jpg'); */
-  /* background-repeat: no-repeat; */
   background-size: cover;
 }
 
 #background1 {
-  /* background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%); RED BLINKING WHEN STAMINA IS DROPS BELOW 20*/
-  /* background-image: linear-gradient(to top, #43e97b 0%, #38f9d7 100%); GREEN BLINKING WHEN 5 CORRECT DANCES MOVES IN A ROW  */
-   /* width: 100%;
-  height: 100%; */
-  background-image: url('../images/stilldancebackground.jpg');
+  background-image: url('../images/Stilldancebackground.jpg');
   background-size: cover;
-  
 }
 
 #background2 {
-  background-image: url('../images/discogif.gif');
+  background-image: url('../images/Discogif.gif');
   background-size: contain;
-  /* background-repeat: repeat-x; */
-  /* opacity: 0.6; */
 }
 

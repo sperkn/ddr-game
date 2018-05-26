@@ -350,7 +350,7 @@ window.onload = function() {
   $('#sweet-dreams').on('click', function(event) {
     $(this).toggleClass('active');
     if ($('#sweet-dreams').hasClass('active')) {
-      $('source').attr('src', '../Music/Sweet_Dreams_Remix.mp3');
+      $('source').attr('src', '../Music/Sweet_Dreams_Remix.mp3.mp3');
       userSong.load();
       $('#start-btn').toggleClass('non-hover-btn start-btn');
       $('#start').addClass('active');
@@ -547,13 +547,13 @@ userSong.onended = function() {
 
   //arrow images to be used for the static arrows at bottom of canvas and for the falling arrows
   let arrowImageLeft = new Image();
-  arrowImageLeft.src = "../images/left_arrow.png";
+  arrowImageLeft.src = "../images/Leftarrow.png";
   let arrowImageRight = new Image();
-  arrowImageRight.src = "../images/right_arrow.png";
+  arrowImageRight.src = "../images/Rightarrow.png";
   let arrowImageDown = new Image();
-  arrowImageDown.src = "../images/down_arrow.png";
+  arrowImageDown.src = "../images/Downarrow.png";
   let arrowImageUp = new Image();
-  arrowImageUp.src = "../images/up_arrow.png";
+  arrowImageUp.src = "../images/Uparrow.png";
 
   //scoreboard for player1
   function createGameBoard1() {
