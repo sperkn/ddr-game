@@ -339,12 +339,12 @@ p {
 }
 
 #background1 {
-  background-image: url('../images/Stilldancebackground.jpg');
+  background-image: url('../images/stilldancebackground.jpg');
   background-size: cover;
 }
 
 #background2 {
-  background-image: url('../images/Discogif.gif');
+  background-image: url('../images/discogif.gif');
   background-size: contain;
 }
 
